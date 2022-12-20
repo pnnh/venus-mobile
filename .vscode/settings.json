@@ -1,0 +1,13 @@
+{
+    "window.autoDetectColorScheme": true,
+    "workbench.colorTheme": "Default Light+",
+    "workbench.iconTheme": "vscode-icons",
+    "workbench.preferredDarkColorTheme": "Default Light+",
+    "cmake.configureOnOpen": false,
+    "cmake.sourceDirectory": "${workspaceFolder}",
+    "cmake.autoSelectActiveFolder": false,
+    "cmake.configureOnEdit": false,
+    "cSpell.words": [
+        "esbuild"
+    ]
+}
