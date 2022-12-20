@@ -24,7 +24,7 @@ class _EmotionPageState extends State<EmotionPage> {
             const TitleBarWidget(),
             Expanded(
                 child: Row(children: [
-              const ELeftSideWidget(),
+              ELeftSideWidget(),
               Expanded(child: EmotionGridWidget()),
             ]))
           ],

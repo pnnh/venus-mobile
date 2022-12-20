@@ -1,5 +1,4 @@
 import 'package:bitsdojo_window/bitsdojo_window.dart';
-import 'package:dream/application/desktop/pages/calendar.dart';
 import 'package:dream/application/desktop/route.dart';
 import 'package:flutter/material.dart';
 
@@ -33,13 +32,9 @@ class DesktopPage extends Page {
 Widget selectPage(Uri uri) {
   debugPrint("uri_path ${uri.path}");
   switch (uri.path) {
-    case "/calendar":
-      return const CalendarPage();
     case "/other":
       return const OtherPage();
     default:
-      //return const HomePage();
-      // todo 临时为了方便测试表情页面目的
       return const EmotionPage();
   }
 }
