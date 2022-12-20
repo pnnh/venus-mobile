@@ -1,6 +1,5 @@
 import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:dream/application/desktop/route.dart';
-import 'package:dream/services/store/hive.dart';
 import 'package:flutter/material.dart';
 
 class DesktopApplication extends StatefulWidget {
@@ -28,7 +27,6 @@ class _DesktopApplicationState extends State<DesktopApplication> {
 }
 
 Future<Widget> initApp() async {
-  await HiveStore.init();
   doWhenWindowReady(() {
     appWindow.minSize = const Size(640, 480);
     appWindow.size = const Size(1280, 900);

@@ -1,14 +1,11 @@
-
-import 'package:dream/services/models/article.dart';
-import 'package:dream/services/models/resource.dart';
+import 'package:dream/services/models/picture.dart';
 import 'package:json_annotation/json_annotation.dart';
-
 
 part 'home.g.dart';
 
 @JsonSerializable()
 class HomeResult {
-  List<ResourceModel> list;
+  List<PictureModel> list;
   int count;
 
   HomeResult({this.list = const [], this.count = 0});

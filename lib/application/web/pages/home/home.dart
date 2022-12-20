@@ -1,14 +1,7 @@
 import 'package:dream/application/web/pages/partial/page_loading.dart';
 import 'package:dream/services/home.dart';
 import 'package:dream/services/models/home.dart';
-import 'package:dream/services/models/resource.dart';
-import 'package:dream/utils/utils.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-
-import '../partial/header.dart';
-import 'item.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -40,62 +33,7 @@ class _HomePageState extends State<HomePage> {
 
         return SingleChildScrollView(
             physics: const ClampingScrollPhysics(),
-            child: Container(
-                child: Column(
-              children: [
-                const HeaderWidget(),
-                const SizedBox(height: 16),
-                SizedBox(
-                    width: 1200,
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Expanded(
-                          child: Container(
-                              //padding: const EdgeInsets.all(8),
-                              decoration: const BoxDecoration(
-                                color: Colors.transparent,
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(4)),
-                              ),
-                              child: StaggeredGrid.count(
-                                  crossAxisCount: 24,
-                                  mainAxisSpacing: 16,
-                                  crossAxisSpacing: 16,
-                                  children: repositories
-                                      .map(
-                                        (e) => StaggeredGridTile.count(
-                                          crossAxisCellCount: 6,
-                                          mainAxisCellCount: 6,
-                                          child: Container(
-                                            decoration: BoxDecoration(
-                                                color: Colors.white,
-                                                borderRadius:
-                                                    BorderRadius.circular(2)),
-                                            margin: const EdgeInsets.only(
-                                                bottom: 8),
-                                            child: ResourceItemWidget(e),
-                                          ),
-                                        ),
-                                      )
-                                      .toList())),
-                        )
-                      ],
-                    )),
-                Container(
-                  width: 1200,
-                  padding: const EdgeInsets.all(16),
-                  decoration: const BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.all(Radius.circular(4)),
-                  ),
-                  child: renderPagination(context, dataCount),
-                ),
-                SizedBox(
-                  height: 24,
-                )
-              ],
-            )));
+            child: Container(child: Text("尚未实现")));
       },
     );
   }

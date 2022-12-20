@@ -1,9 +1,7 @@
 import 'dart:convert';
 
 import 'package:dream/config.dart';
-import 'package:dream/services/models/article.dart';
 import 'package:http/http.dart' as http;
-import 'package:json_annotation/json_annotation.dart';
 
 import 'models/home.dart';
 

@@ -1,7 +1,5 @@
-import 'package:dream/services/store/hive.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:pillow/pillow.dart';
 
 import 'route.dart';
 
@@ -42,9 +40,4 @@ class _WebApplicationState extends State<WebApplication> {
       },
     );
   }
-}
-
-Future<Widget> initApp() async { 
-  await HiveStore.init();
-  return WebApplication();
 }

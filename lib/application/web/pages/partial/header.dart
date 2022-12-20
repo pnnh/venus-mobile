@@ -3,8 +3,6 @@ import 'dart:math';
 import 'package:dream/application/web/route.dart';
 import 'package:flutter/material.dart';
 
-import 'toolbar.dart';
-
 class HeaderWidget extends StatelessWidget {
   const HeaderWidget({Key? key}) : super(key: key);
 
@@ -95,7 +93,6 @@ class HeaderWidget extends StatelessWidget {
                             ),
                           ]),
                     ),
-                    const ToolbarWidget()
                   ],
                 )), // your column
           );

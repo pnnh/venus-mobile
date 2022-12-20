@@ -1,15 +1,10 @@
 import 'dart:math';
 
-import 'package:dream/application/web/pages/article/create.dart';
-import 'package:dream/application/web/pages/article/read.dart';
 import 'package:dream/application/web/pages/home/home.dart';
 import 'package:dream/application/web/pages/random.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'pages/account/callback.dart';
-import 'pages/account/login.dart';
 import 'pages/admin/main.dart';
-import 'pages/resources/resources.dart';
 
 class CustomPageRoute extends MaterialPageRoute {
   CustomPageRoute(WidgetBuilder builder, {RouteSettings? settings})
@@ -168,18 +163,8 @@ class WebPage extends Page {
 Widget selectPage(Uri uri) {
   debugPrint("uri_path ${uri.path}");
   switch (uri.path) {
-    case "/login":
-      return const LoginWidget();
-    case "/login/callback":
-      return const CallbackWidget();
-    case "/article/create":
-      return const ArticleCreatePage();
-    case "/article/read":
-      return ArticleReadPage(uri.queryParameters);
     case "/random":
       return const RandomPage();
-    case "/resources":
-      return ResourcesPage();
     case "/admin/main":
       return const AdminMainPage();
     default:

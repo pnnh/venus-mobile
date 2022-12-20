@@ -8,7 +8,7 @@ part of 'home.dart';
 
 HomeResult _$HomeResultFromJson(Map<String, dynamic> json) => HomeResult(
       list: (json['list'] as List<dynamic>?)
-              ?.map((e) => ResourceModel.fromJson(e as Map<String, dynamic>))
+              ?.map((e) => PictureModel.fromJson(e as Map<String, dynamic>))
               .toList() ??
           const [],
       count: json['count'] as int? ?? 0,

@@ -1,12 +1,10 @@
 import 'dart:io';
 
-import 'package:dream/application/desktop/providers/emotion.dart';
 import 'package:flutter/material.dart';
 
 import './partial/left_side.dart';
 import '../../components/title_bar.dart';
 import 'partial/emotion_grid.dart';
-import 'partial/func_group.dart';
 
 class EmotionPage extends StatefulWidget {
   const EmotionPage({Key? key}) : super(key: key);
@@ -26,7 +24,6 @@ class _EmotionPageState extends State<EmotionPage> {
             const TitleBarWidget(),
             Expanded(
                 child: Row(children: [
-              const EFuncGroupWidget(),
               const ELeftSideWidget(),
               Expanded(child: EmotionGridWidget()),
             ]))

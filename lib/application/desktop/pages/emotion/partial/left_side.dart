@@ -19,11 +19,10 @@ class ELeftSideWidget extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     var routerDelegate = DesktopRouterDelegate.of(context);
     debugPrint("work_group ${routerDelegate.currentConfiguration.uri}");
-    //var selectedKey = ref.watch(emotionProvider.state).state.selectedKey;
     var selectedKey = "";
     return Container(
       width: 256,
-      color: Color(0xffffffff),
+      color: const Color(0xffF4F0EE),
       padding: EdgeInsets.only(top: 24, left: 0, bottom: 24, right: 0),
       child: Column(children: [
         Container(
@@ -33,42 +32,39 @@ class ELeftSideWidget extends ConsumerWidget {
               ? Color(0xffD3D3D3)
               : Colors.transparent,
           child: MouseRegion(
-            onEnter: (event) {
-              // setState(() {
-              //   selectedKey = "f1";
-              // });
-            },
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
+            onEnter: (event) {},
+            child: GestureDetector(
+                onTap: () {
+                  debugPrint("点击动图");
+                  ref
+                      .read(emotionProvider.notifier)
+                      .selectKey('/Users/Larry/Downloads/data/');
+                },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Container(
-                      padding:
-                          EdgeInsets.only(left: 0, right: 8, top: 0, bottom: 0),
-                      child: GestureDetector(
-                          onTap: () {
-                            debugPrint("点击动图");
-                            ref
-                                .read(emotionProvider.notifier)
-                                .selectKey('/Users/Larry/Downloads/data/');
-                          },
+                    Row(
+                      children: [
+                        Container(
+                          padding: EdgeInsets.only(
+                              left: 0, right: 8, top: 0, bottom: 0),
                           child: SvgPicture.asset(
                             "static/images/icons/home.svg",
                             color: Color(0xff444444),
                             height: 16,
                             width: 16,
                             //    fit: BoxFit.fitWidth
-                          )),
+                          ),
+                        ),
+                        Text(
+                          "主目录",
+                          style: TextStyle(fontSize: 12),
+                        ),
+                      ],
                     ),
-                    Text(
-                      "主目录",
-                      style: TextStyle(fontSize: 12),
-                    ),
+                    Text("2819")
                   ],
-                ),
-              ],
-            ),
+                )),
           ),
         ),
         Container(
@@ -513,174 +509,6 @@ class ELeftSideWidget extends ConsumerWidget {
                     ],
                   ),
                   Text("35")
-                ],
-              )),
-        ),
-        Container(
-          height: 32,
-          padding: EdgeInsets.only(left: 16, right: 16),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                "标签",
-                style: TextStyle(fontSize: 14),
-              ),
-            ],
-          ),
-        ),
-        Container(
-          height: 32,
-          padding: EdgeInsets.only(left: 16, right: 16),
-          color: selectedKey == "shoucang"
-              ? Color(0xffD3D3D3)
-              : Colors.transparent,
-          child: MouseRegion(
-              onEnter: (event) {
-                // setState(() {
-                //   selectedKey = "shoucang";
-                // });
-              },
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      Container(
-                        padding: EdgeInsets.only(
-                            left: 0, right: 8, top: 0, bottom: 0),
-                        child: GestureDetector(
-                            onTap: () {},
-                            child: SvgPicture.asset(
-                              "static/images/icons/shoucang.svg",
-                              color: Color(0xff444444),
-                              height: 16,
-                              width: 16,
-                              //    fit: BoxFit.fitWidth
-                            )),
-                      ),
-                      Text(
-                        "收藏",
-                        style: TextStyle(fontSize: 12),
-                      ),
-                    ],
-                  ),
-                  Text("189")
-                ],
-              )),
-        ),
-        Container(
-          height: 32,
-          padding: EdgeInsets.only(left: 16, right: 16),
-          color: selectedKey == "hao" ? Color(0xffD3D3D3) : Colors.transparent,
-          child: MouseRegion(
-              onEnter: (event) {
-                // setState(() {
-                //   selectedKey = "hao";
-                // });
-              },
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      Container(
-                        padding: EdgeInsets.only(
-                            left: 0, right: 8, top: 0, bottom: 0),
-                        child: GestureDetector(
-                            onTap: () {},
-                            child: SvgPicture.asset(
-                              "static/images/icons/hao.svg",
-                              color: Color(0xff444444),
-                              height: 16,
-                              width: 16,
-                              //    fit: BoxFit.fitWidth
-                            )),
-                      ),
-                      Text(
-                        "好",
-                        style: TextStyle(fontSize: 12),
-                      ),
-                    ],
-                  ),
-                  Text("495")
-                ],
-              )),
-        ),
-        Container(
-          height: 32,
-          padding: EdgeInsets.only(left: 16, right: 16),
-          color:
-              selectedKey == "zhong" ? Color(0xffD3D3D3) : Colors.transparent,
-          child: MouseRegion(
-              onEnter: (event) {
-                // setState(() {
-                //   selectedKey = "zhong";
-                // });
-              },
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      Container(
-                        padding: EdgeInsets.only(
-                            left: 0, right: 8, top: 0, bottom: 0),
-                        child: GestureDetector(
-                            onTap: () {},
-                            child: SvgPicture.asset(
-                              "static/images/icons/zhong.svg",
-                              color: Color(0xff444444),
-                              height: 16,
-                              width: 16,
-                              //    fit: BoxFit.fitWidth
-                            )),
-                      ),
-                      Text(
-                        "中",
-                        style: TextStyle(fontSize: 12),
-                      ),
-                    ],
-                  ),
-                  Text("672")
-                ],
-              )),
-        ),
-        Container(
-          height: 32,
-          padding: EdgeInsets.only(left: 16, right: 16),
-          color: selectedKey == "cha" ? Color(0xffD3D3D3) : Colors.transparent,
-          child: MouseRegion(
-              onEnter: (event) {
-                // setState(() {
-                //   selectedKey = "cha";
-                // });
-              },
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      Container(
-                        padding: EdgeInsets.only(
-                            left: 0, right: 8, top: 0, bottom: 0),
-                        child: GestureDetector(
-                            onTap: () {},
-                            child: SvgPicture.asset(
-                              "static/images/icons/cha.svg",
-                              color: Color(0xff444444),
-                              height: 16,
-                              width: 16,
-                              //    fit: BoxFit.fitWidth
-                            )),
-                      ),
-                      Text(
-                        "差",
-                        style: TextStyle(fontSize: 12),
-                      ),
-                    ],
-                  ),
-                  Text("71")
                 ],
               )),
         ),

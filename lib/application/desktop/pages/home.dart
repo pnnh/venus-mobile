@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../components/title_bar.dart';
-import '../components/todo_list.dart';
 import '../components/work_group.dart';
 
 class EmotionPage extends StatelessWidget {
@@ -44,7 +43,6 @@ class EmotionScreen extends StatelessWidget {
                       //         width: 1,
                       //       ))),
                       //       child: const FilterGroupWidget()),
-                      const TodoListWidget(),
                     ])))
           ],
         ));
