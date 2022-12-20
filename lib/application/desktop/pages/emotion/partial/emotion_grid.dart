@@ -1,4 +1,5 @@
 import 'package:dream/application/desktop/providers/emotion.dart';
+import 'package:dream/services/models/picture.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -13,7 +14,7 @@ class EmotionGridWidget extends ConsumerWidget {
       child: Container(
         padding: EdgeInsets.all(16),
         height: 4000,
-        child: FutureBuilder<List<EmotionPicture>>(
+        child: FutureBuilder<List<PictureModel>>(
           future: selectPics(ref.watch(emotionProvider)),
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             //debugPrint("pics: ${snapshot.data}");
@@ -22,7 +23,7 @@ class EmotionGridWidget extends ConsumerWidget {
                 child: Text("Empty"),
               );
             }
-            var picList = snapshot.data as List<EmotionPicture>;
+            var picList = snapshot.data as List<PictureModel>;
             return GridView(
               padding: EdgeInsets.zero,
               gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
@@ -32,7 +33,7 @@ class EmotionGridWidget extends ConsumerWidget {
                 crossAxisSpacing: 8,
               ),
               physics: NeverScrollableScrollPhysics(),
-              children: picList.map((e) => ImageCellWidget(e.path)).toList(),
+              children: picList.map((e) => ImageCellWidget(e.file)).toList(),
               // children: <Widget>[
               //   ImageCellWidget('/Users/Larry/Downloads/data/2.png'),
               //   ImageCellWidget('/Users/Larry/Downloads/data/3.png'),

@@ -1,230 +1,113 @@
-import 'package:dream/application/desktop/providers/emotion.dart';
+import 'package:dream/services/models/folder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:provider/provider.dart';
+
+final StateProvider<List<PictureFolder>> counterProvider =
+    StateProvider((_) => <PictureFolder>[]);
 
 class VFoldersWidget extends ConsumerWidget {
   const VFoldersWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var selectedKey = "";
-    return Container(
-      child: Column(children: [
-        Container(
-          height: 32,
-          padding: EdgeInsets.only(left: 16, right: 16),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    var folderList = ref.watch(counterProvider);
+
+    return FutureBuilder<List<PictureFolder>>(
+        future: queryPictureFolders(),
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          if (!snapshot.hasData) {
+            return Center(
+              child: Text("加载Folders出错"),
+            );
+          }
+          var dataList = snapshot.data as List<PictureFolder>;
+          return Column(
             children: [
-              Text(
-                "位置",
-                style: TextStyle(fontSize: 14),
-              ),
-            ],
-          ),
-        ),
-        Container(
-          height: 32,
-          padding: EdgeInsets.only(left: 16, right: 16),
-          color: ref.watch(emotionProvider) == "f1"
-              ? Color(0xffD3D3D3)
-              : Colors.transparent,
-          child: MouseRegion(
-            onEnter: (event) {},
-            child: GestureDetector(
-                onTap: () {
-                  debugPrint("点击动图");
-                  ref
-                      .read(emotionProvider.notifier)
-                      .selectKey('/Users/Larry/Downloads/data/');
-                },
+              Container(
+                height: 32,
+                padding: EdgeInsets.only(left: 16, right: 16),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Row(
-                      children: [
-                        Container(
-                          padding: EdgeInsets.only(
-                              left: 0, right: 8, top: 0, bottom: 0),
-                          child: SvgPicture.asset(
-                            "static/images/icons/home.svg",
-                            color: Color(0xff444444),
-                            height: 16,
-                            width: 16,
-                            //    fit: BoxFit.fitWidth
-                          ),
-                        ),
-                        Text(
-                          "主目录",
-                          style: TextStyle(fontSize: 12),
-                        ),
-                      ],
-                    ),
-                    Text("2819")
-                  ],
-                )),
-          ),
-        ),
-        Container(
-          height: 32,
-          padding: EdgeInsets.only(left: 16, right: 16),
-          color: ref.watch(emotionProvider) == "f2"
-              ? Color(0xffD3D3D3)
-              : Colors.transparent,
-          child: MouseRegion(
-            onEnter: (event) {
-              // setState(() {
-              //   selectedKey = "f2";
-              // });
-            },
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  children: [
-                    Container(
-                      padding:
-                          EdgeInsets.only(left: 0, right: 8, top: 0, bottom: 0),
-                      child: GestureDetector(
-                          onTap: () {
-                            debugPrint("点击Images");
-                            ref
-                                .read(emotionProvider.notifier)
-                                .selectKey('/Users/Larry/Downloads/data2/1');
-                          },
-                          child: SvgPicture.asset(
-                            "static/images/icons/download.svg",
-                            color: Color(0xff444444),
-                            height: 18,
-                            width: 18,
-                            //    fit: BoxFit.fitWidth
-                          )),
-                    ),
                     Text(
-                      "下载",
-                      style: TextStyle(fontSize: 12),
+                      "位置",
+                      style: TextStyle(fontSize: 14),
                     ),
+                    GestureDetector(
+                      onTap: () async {
+                        debugPrint("plus");
+                        var folder = await selectFolder();
+                        if (folder != null)
+                          ref.read(counterProvider).add(folder);
+                      },
+                      child: SvgPicture.asset(
+                        "static/images/icons/plus.svg",
+                        color: Color(0xffCDCDCD),
+                        height: 16,
+                        width: 16,
+                        //    fit: BoxFit.fitWidth
+                      ),
+                    )
                   ],
                 ),
-              ],
-            ),
-          ),
-        ),
-        Container(
-            height: 32,
-            color: selectedKey == "f3" ? Color(0xffD3D3D3) : Colors.transparent,
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: MouseRegion(
-              onEnter: (event) {
-                // setState(() {
-                //   selectedKey = "f3";
-                // });
-              },
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      Container(
-                        padding: EdgeInsets.only(
-                            left: 0, right: 8, top: 0, bottom: 0),
-                        child: GestureDetector(
-                            onTap: () {},
-                            child: SvgPicture.asset(
-                              "static/images/icons/picture.svg",
-                              color: Color(0xff444444),
-                              height: 16,
-                              width: 16,
-                              //    fit: BoxFit.fitWidth
-                            )),
-                      ),
-                      Text(
-                        "图片",
-                        style: TextStyle(fontSize: 12),
-                      ),
-                    ],
-                  ),
-                ],
               ),
-            )),
-        Container(
-          height: 32,
-          padding: EdgeInsets.only(left: 16, right: 16),
-          color:
-              selectedKey == "saoqi" ? Color(0xffD3D3D3) : Colors.transparent,
-          child: MouseRegion(
-              onEnter: (event) {
-                // setState(() {
-                //   selectedKey = "saoqi";
-                // });
-              },
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      Container(
-                        padding: EdgeInsets.only(
-                            left: 0, right: 8, top: 0, bottom: 0),
-                        child: GestureDetector(
-                            onTap: () {},
-                            child: SvgPicture.asset(
-                              "static/images/icons/document.svg",
-                              color: Color(0xff444444),
-                              height: 16,
-                              width: 16,
-                              //    fit: BoxFit.fitWidth
-                            )),
-                      ),
-                      Text(
-                        "文档",
-                        style: TextStyle(fontSize: 12),
-                      ),
-                    ],
-                  ),
-                ],
-              )),
-        ),
-        Container(
-          height: 32,
-          padding: EdgeInsets.only(left: 16, right: 16),
-          color:
-              selectedKey == "shadiao" ? Color(0xffD3D3D3) : Colors.transparent,
-          child: MouseRegion(
-              onEnter: (event) {
-                // setState(() {
-                //   selectedKey = "shadiao";
-                // });
-              },
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      Container(
-                        padding: EdgeInsets.only(
-                            left: 0, right: 8, top: 0, bottom: 0),
-                        child: GestureDetector(
-                            onTap: () {},
-                            child: SvgPicture.asset(
-                              "static/images/icons/trash_fill.svg",
-                              color: Color(0xff444444),
-                              height: 16,
-                              width: 16,
-                              //    fit: BoxFit.fitWidth
-                            )),
-                      ),
-                      Text(
-                        "回收站",
-                        style: TextStyle(fontSize: 12),
-                      ),
-                    ],
-                  ),
-                ],
-              )),
-        ),
-      ]),
-    );
+              SizedBox(
+                height: 8,
+              ),
+              Column(
+                  children: List.generate(
+                dataList.length,
+                (index) {
+                  var item = dataList[index];
+
+                  return Container(
+                    height: 32,
+                    padding: EdgeInsets.only(left: 16, right: 16),
+                    color: ref.watch(emotionProvider) == "f1"
+                        ? Color(0xffD3D3D3)
+                        : Colors.transparent,
+                    child: MouseRegion(
+                      onEnter: (event) {},
+                      child: GestureDetector(
+                          onTap: () {
+                            debugPrint("点击动图");
+                            ref
+                                .read(emotionProvider.notifier)
+                                .selectKey(item.path);
+                          },
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Row(
+                                children: [
+                                  Container(
+                                    padding: EdgeInsets.only(
+                                        left: 0, right: 8, top: 0, bottom: 0),
+                                    child: SvgPicture.asset(
+                                      item.icon,
+                                      color: Color(0xff444444),
+                                      height: 16,
+                                      width: 16,
+                                      //    fit: BoxFit.fitWidth
+                                    ),
+                                  ),
+                                  Text(
+                                    item.title,
+                                    style: TextStyle(fontSize: 12),
+                                  ),
+                                ],
+                              ),
+                              Text(item.count.toString())
+                            ],
+                          )),
+                    ),
+                  );
+                },
+              ))
+            ],
+          );
+        });
   }
 }

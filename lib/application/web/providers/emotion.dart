@@ -35,24 +35,6 @@ class EmotionNotifier extends StateNotifier<String> {
   }
 }
 
-Future<List<EmotionPicture>> selectPics(String picPath) async {
-  print("selectPics: $picPath");
-  if (picPath.trim().isEmpty) {
-    return List.empty();
-  }
-  final dir = Directory(picPath);
-  List<EmotionPicture> files = <EmotionPicture>[];
-  await for (FileSystemEntity entity
-      in dir.list(recursive: false, followLinks: false)) {
-    FileSystemEntityType type = await FileSystemEntity.type(entity.path);
-    if (type == FileSystemEntityType.file) {
-      var pic = EmotionPicture(entity.path);
-      files.add(pic);
-    }
-  }
-  return files;
-}
-
 class GridState {
   String selectedKey = "";
   String hoverKey = "";

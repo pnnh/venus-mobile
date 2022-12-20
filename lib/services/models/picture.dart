@@ -1,6 +1,8 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:dream/config.dart';
+import 'package:dream/utils/image.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:json_annotation/json_annotation.dart';
@@ -11,7 +13,7 @@ part 'picture.g.dart';
 class PictureModel {
   String file = "";
 
-  PictureModel();
+  PictureModel(this.file);
 
   factory PictureModel.fromJson(Map<String, dynamic> json) =>
       _$PictureModelFromJson(json);
@@ -53,4 +55,28 @@ Future<PictureQueryResult> queryPictures(String group) async {
   print('count: $count');
   var result = PictureQueryResult.fromJson(decodedResponse);
   return result;
+}
+
+Future<List<PictureModel>> selectPics(String picDir) async {
+  debugPrint("selectPics: $picDir");
+  if (picDir.trim().isEmpty) {
+    return List.empty();
+  }
+  // var realPath = lookupPath(picDir);
+  // debugPrint("realPath: $realPath");
+  var realPath = picDir;
+  final dir = Directory(realPath);
+  var fileList = dir.list(recursive: false, followLinks: false);
+  List<PictureModel> files = <PictureModel>[];
+  await for (FileSystemEntity entity in fileList) {
+    FileSystemEntityType type = await FileSystemEntity.type(entity.path);
+    if (type == FileSystemEntityType.file) {
+      var isPic = isImage(entity.path);
+      debugPrint("isPic: ${entity.path} $isPic");
+      if (!isPic) continue;
+      var pic = PictureModel(entity.path);
+      files.add(pic);
+    }
+  }
+  return files;
 }

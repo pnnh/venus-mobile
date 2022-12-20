@@ -6,8 +6,9 @@ part of 'picture.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-PictureModel _$PictureModelFromJson(Map<String, dynamic> json) =>
-    PictureModel()..file = json['file'] as String;
+PictureModel _$PictureModelFromJson(Map<String, dynamic> json) => PictureModel(
+      json['file'] as String,
+    );
 
 Map<String, dynamic> _$PictureModelToJson(PictureModel instance) =>
     <String, dynamic>{
