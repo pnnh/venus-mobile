@@ -1,11 +1,12 @@
-import 'package:file_picker/file_picker.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:dream/services/sqlite.dart';
+import 'package:flutter/cupertino.dart'; 
 import 'package:json_annotation/json_annotation.dart';
-import 'package:path/path.dart' as path;
-part 'folder.g.dart';
 
-@JsonSerializable()
-class PictureFolder {
+part 'folder.g.dart';
+ 
+
+@JsonSerializable() 
+class PictureFolder  { 
   String pk;
   String title;
   int count;
@@ -23,55 +24,19 @@ class PictureFolder {
 
   Map<String, dynamic> toJson() => _$PictureFolderToJson(this);
 }
+ 
+Future<List<PictureFolder>> selectFolders(String path) async {
+  final List<Map<String, dynamic>> maps =
+      await SqliteStore.defaultStore.query('folders');
 
-var defaultFolders = <PictureFolder>[];
-
-Future<List<PictureFolder>> queryPictureFolders(String directory) {
-  //var list = <PictureFolder>[];
-  // list.add(PictureFolder("0",
-  //     title: "主目录",
-  //     count: 3258,
-  //     icon: "static/images/icons/folder.svg",
-  //     path: "/Users/Larry"));
-  // list.add(PictureFolder("1",
-  //     title: "下载",
-  //     count: 19,
-  //     icon: "static/images/icons/folder.svg",
-  //     path: "/Users/Larry/Downloads"));
-  // list.add(PictureFolder("2",
-  //     title: "图片",
-  //     count: 2190,
-  //     icon: "static/images/icons/folder.svg",
-  //     path: "/Users/Larry/Pictures"));
-  // list.add(PictureFolder("3",
-  //     title: "文档",
-  //     count: 182,
-  //     icon: "static/images/icons/folder.svg",
-  //     path: "/Users/Larry/Documents"));
-  debugPrint("queryPictureFolders: $defaultFolders");
-  return Future(() => defaultFolders);
+  return List.generate(maps.length, (i) {
+    return PictureFolder.fromJson(maps[i]);
+  });
 }
 
-void addFolder(PictureFolder folder) {
-  defaultFolders.add(folder);
-  return;
-}
-
-Future<PictureFolder?> selectFolder() async {
-  String? selectedDirectory = await FilePicker.platform.getDirectoryPath();
-
-  if (selectedDirectory != null) {
-    // User canceled the picker
-    debugPrint("selectedDirectory: $selectedDirectory");
-    var newFolder = PictureFolder(selectedDirectory,
-        title: path.basename(selectedDirectory),
-        count: 182,
-        icon: "static/images/icons/folder.svg",
-        path: selectedDirectory);
-    addFolder(newFolder);
-
-    return newFolder;
-  }
-
-  return null;
+Future<void> insertFolder(PictureFolder dog) async {
+  await SqliteStore.defaultStore.insert(
+    'folders',
+    dog.toJson(),
+  );
 }

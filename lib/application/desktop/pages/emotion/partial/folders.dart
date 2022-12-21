@@ -1,9 +1,11 @@
 import 'package:dream/application/desktop/providers/emotion.dart';
 import 'package:dream/services/models/folder.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
+import 'package:path/path.dart' as path;
 
 final StateProvider<String> directoryProvider = StateProvider((_) => "");
 
@@ -13,7 +15,7 @@ class VFoldersWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return FutureBuilder<List<PictureFolder>>(
-        future: queryPictureFolders(ref.watch(directoryProvider)),
+        future: selectFolders(ref.watch(directoryProvider)),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (!snapshot.hasData) {
             return Center(
@@ -36,7 +38,7 @@ class VFoldersWidget extends ConsumerWidget {
                     GestureDetector(
                       onTap: () async {
                         debugPrint("plus");
-                        var folder = await selectFolder();
+                        var folder = await pickFolder();
                         if (folder != null) {
                           ref
                               .read(directoryProvider.notifier)
@@ -110,5 +112,24 @@ class VFoldersWidget extends ConsumerWidget {
             ],
           );
         });
+  }
+
+  Future<PictureFolder?> pickFolder() async {
+    String? selectedDirectory = await FilePicker.platform.getDirectoryPath();
+
+    if (selectedDirectory != null) {
+      // User canceled the picker
+      debugPrint("selectedDirectory: $selectedDirectory");
+      var newFolder = PictureFolder(selectedDirectory,
+          title: path.basename(selectedDirectory),
+          count: 182,
+          icon: "static/images/icons/folder.svg",
+          path: selectedDirectory);
+      await insertFolder(newFolder);
+
+      return newFolder;
+    }
+
+    return null;
   }
 }

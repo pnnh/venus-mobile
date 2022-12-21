@@ -2,13 +2,24 @@ PODS:
   - bitsdojo_window_macos (0.0.1):
     - FlutterMacOS
   - FlutterMacOS (1.0.0)
+  - FMDB (2.7.5):
+    - FMDB/standard (= 2.7.5)
+  - FMDB/standard (2.7.5)
   - pillow (0.0.1):
     - FlutterMacOS
+  - sqflite (0.0.2):
+    - FlutterMacOS
+    - FMDB (>= 2.7.5)
 
 DEPENDENCIES:
   - bitsdojo_window_macos (from `Flutter/ephemeral/.symlinks/plugins/bitsdojo_window_macos/macos`)
   - FlutterMacOS (from `Flutter/ephemeral`)
   - pillow (from `Flutter/ephemeral/.symlinks/plugins/pillow/macos`)
+  - sqflite (from `Flutter/ephemeral/.symlinks/plugins/sqflite/macos`)
+
+SPEC REPOS:
+  trunk:
+    - FMDB
 
 EXTERNAL SOURCES:
   bitsdojo_window_macos:
@@ -17,11 +28,15 @@ EXTERNAL SOURCES:
     :path: Flutter/ephemeral
   pillow:
     :path: Flutter/ephemeral/.symlinks/plugins/pillow/macos
+  sqflite:
+    :path: Flutter/ephemeral/.symlinks/plugins/sqflite/macos
 
 SPEC CHECKSUMS:
   bitsdojo_window_macos: 44e3b8fe3dd463820e0321f6256c5b1c16bb6a00
   FlutterMacOS: ae6af50a8ea7d6103d888583d46bd8328a7e9811
-  pillow: 1a4297e1ae076a825446ac64cc4e3d983f6ebfc6
+  FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
+  pillow: 1eec8d04ebc0defeb344e0d54f58495058039c44
+  sqflite: a5789cceda41d54d23f31d6de539d65bb14100ea
 
 PODFILE CHECKSUM: 353c8bcc5d5b0994e508d035b5431cfe18c1dea7
 
