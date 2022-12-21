@@ -5,6 +5,8 @@ PODS:
   - FMDB (2.7.5):
     - FMDB/standard (= 2.7.5)
   - FMDB/standard (2.7.5)
+  - macos_secure_bookmarks (0.0.3):
+    - FlutterMacOS
   - pillow (0.0.1):
     - FlutterMacOS
   - sqflite (0.0.2):
@@ -14,6 +16,7 @@ PODS:
 DEPENDENCIES:
   - bitsdojo_window_macos (from `Flutter/ephemeral/.symlinks/plugins/bitsdojo_window_macos/macos`)
   - FlutterMacOS (from `Flutter/ephemeral`)
+  - macos_secure_bookmarks (from `Flutter/ephemeral/.symlinks/plugins/macos_secure_bookmarks/macos`)
   - pillow (from `Flutter/ephemeral/.symlinks/plugins/pillow/macos`)
   - sqflite (from `Flutter/ephemeral/.symlinks/plugins/sqflite/macos`)
 
@@ -26,6 +29,8 @@ EXTERNAL SOURCES:
     :path: Flutter/ephemeral/.symlinks/plugins/bitsdojo_window_macos/macos
   FlutterMacOS:
     :path: Flutter/ephemeral
+  macos_secure_bookmarks:
+    :path: Flutter/ephemeral/.symlinks/plugins/macos_secure_bookmarks/macos
   pillow:
     :path: Flutter/ephemeral/.symlinks/plugins/pillow/macos
   sqflite:
@@ -35,6 +40,7 @@ SPEC CHECKSUMS:
   bitsdojo_window_macos: 44e3b8fe3dd463820e0321f6256c5b1c16bb6a00
   FlutterMacOS: ae6af50a8ea7d6103d888583d46bd8328a7e9811
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
+  macos_secure_bookmarks: cff041c4b377fa00941bb901aaec4d27fac5edf2
   pillow: 1eec8d04ebc0defeb344e0d54f58495058039c44
   sqflite: a5789cceda41d54d23f31d6de539d65bb14100ea
 

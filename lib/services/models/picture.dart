@@ -2,18 +2,22 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:dream/config.dart';
+import 'package:dream/services/models/folder.dart';
 import 'package:dream/utils/image.dart';
+import 'package:dream/utils/utils.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:json_annotation/json_annotation.dart';
+import 'package:macos_secure_bookmarks/macos_secure_bookmarks.dart';
 
 part 'picture.g.dart';
 
 @JsonSerializable()
 class PictureModel {
-  String file = "";
+  String pk;
+  String file;
 
-  PictureModel(this.file);
+  PictureModel(this.pk, this.file);
 
   factory PictureModel.fromJson(Map<String, dynamic> json) =>
       _$PictureModelFromJson(json);
@@ -57,14 +61,19 @@ Future<PictureQueryResult> queryPictures(String group) async {
   return result;
 }
 
-Future<List<PictureModel>> selectPics(String picDir) async {
-  debugPrint("selectPics: $picDir");
-  if (picDir.trim().isEmpty) {
+Future<List<PictureModel>> selectPics(PictureFolder folder) async {
+  debugPrint("selectPics: $folder");
+  if (folder.path.trim().isEmpty) {
     return List.empty();
   }
+  final secureBookmarks = SecureBookmarks();
+  final resolvedFile = await secureBookmarks.resolveBookmark(folder.bookmark);
+// resolved is now a File object, but before accessing it, call:
+  await secureBookmarks.startAccessingSecurityScopedResource(resolvedFile);
+
   // var realPath = lookupPath(picDir);
   // debugPrint("realPath: $realPath");
-  var realPath = picDir;
+  var realPath = folder.path;
   final dir = Directory(realPath);
   var fileList = dir.list(recursive: false, followLinks: false);
   List<PictureModel> files = <PictureModel>[];
@@ -74,9 +83,11 @@ Future<List<PictureModel>> selectPics(String picDir) async {
       var isPic = isImage(entity.path);
       debugPrint("isPic: ${entity.path} $isPic");
       if (!isPic) continue;
-      var pic = PictureModel(entity.path);
+      var picPk = generateRandomString(16);
+      var pic = PictureModel(picPk, entity.path);
       files.add(pic);
     }
   }
+ // await secureBookmarks.stopAccessingSecurityScopedResource(resolvedFile);
   return files;
 }

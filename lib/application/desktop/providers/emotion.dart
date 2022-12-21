@@ -1,13 +1,8 @@
+import 'package:dream/services/models/folder.dart';
+import 'package:dream/services/models/picture.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final emotionProvider =
-    StateNotifierProvider<EmotionModel, String>((ref) => EmotionModel());
 
-class EmotionModel extends StateNotifier<String> {
-  EmotionModel() : super("");
+final StateProvider<PictureFolder> folderProvider = StateProvider((_) => PictureFolder("", path: ""));
 
-  void selectKey(String key) {
-    print("selectKey $key");
-    state = key;
-  }
-}
+final StateProvider<String> gridProvider = StateProvider((_) => "");

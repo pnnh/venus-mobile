@@ -1,9 +1,13 @@
+import 'dart:io';
+
 import 'package:dream/application/desktop/providers/emotion.dart';
 import 'package:dream/services/models/folder.dart';
+import 'package:dream/utils/utils.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:macos_secure_bookmarks/macos_secure_bookmarks.dart';
 import 'package:provider/provider.dart';
 import 'package:path/path.dart' as path;
 
@@ -70,7 +74,7 @@ class VFoldersWidget extends ConsumerWidget {
                       child: Container(
                     height: 32,
                     padding: EdgeInsets.only(left: 16, right: 16),
-                    color: ref.watch(emotionProvider) == "f1"
+                    color: ref.watch(folderProvider).pk == item.pk
                         ? Color(0xffD3D3D3)
                         : Colors.transparent,
                     child: GestureDetector(
@@ -78,8 +82,8 @@ class VFoldersWidget extends ConsumerWidget {
                         onTap: () {
                           debugPrint("点击动图");
                           ref
-                              .read(emotionProvider.notifier)
-                              .selectKey(item.path);
+                              .read(folderProvider.notifier)
+                              .update((state) => item);
                         },
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -118,13 +122,18 @@ class VFoldersWidget extends ConsumerWidget {
     String? selectedDirectory = await FilePicker.platform.getDirectoryPath();
 
     if (selectedDirectory != null) {
-      // User canceled the picker
       debugPrint("selectedDirectory: $selectedDirectory");
-      var newFolder = PictureFolder(selectedDirectory,
+
+      final secureBookmarks = SecureBookmarks();
+      final bookmark = await secureBookmarks.bookmark(File(selectedDirectory));
+
+      var pk = generateRandomString(16);
+      var newFolder = PictureFolder(pk,
           title: path.basename(selectedDirectory),
           count: 182,
           icon: "static/images/icons/folder.svg",
-          path: selectedDirectory);
+          path: selectedDirectory,
+          bookmark: bookmark);
       await insertFolder(newFolder);
 
       return newFolder;

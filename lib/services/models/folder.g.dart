@@ -13,6 +13,7 @@ PictureFolder _$PictureFolderFromJson(Map<String, dynamic> json) =>
       count: json['count'] as int? ?? 0,
       icon: json['icon'] as String? ?? "static/images/icons/folder.svg",
       path: json['path'] as String,
+      bookmark: json['bookmark'] as String? ?? "",
     );
 
 Map<String, dynamic> _$PictureFolderToJson(PictureFolder instance) =>
@@ -22,4 +23,5 @@ Map<String, dynamic> _$PictureFolderToJson(PictureFolder instance) =>
       'count': instance.count,
       'icon': instance.icon,
       'path': instance.path,
+      'bookmark': instance.bookmark,
     };

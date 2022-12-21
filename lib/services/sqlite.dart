@@ -24,10 +24,9 @@ class SqliteStore {
       onCreate: (db, version) {
         var createDDL = """create table main.folders
 (
-    id    INTEGER primary key,
+    pk    TEXT primary key,
     title TEXT,
     path  TEXT,
-    pk    TEXT,
     count integer,
     icon  text
 );
