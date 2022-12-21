@@ -1,7 +1,7 @@
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:json_annotation/json_annotation.dart';
-
+import 'package:path/path.dart' as path;
 part 'folder.g.dart';
 
 @JsonSerializable()
@@ -26,8 +26,8 @@ class PictureFolder {
 
 var defaultFolders = <PictureFolder>[];
 
-Future<List<PictureFolder>> queryPictureFolders() {
-  var list = <PictureFolder>[];
+Future<List<PictureFolder>> queryPictureFolders(String directory) {
+  //var list = <PictureFolder>[];
   // list.add(PictureFolder("0",
   //     title: "主目录",
   //     count: 3258,
@@ -48,8 +48,8 @@ Future<List<PictureFolder>> queryPictureFolders() {
   //     count: 182,
   //     icon: "static/images/icons/folder.svg",
   //     path: "/Users/Larry/Documents"));
-
-  return Future(() => list);
+  debugPrint("queryPictureFolders: $defaultFolders");
+  return Future(() => defaultFolders);
 }
 
 void addFolder(PictureFolder folder) {
@@ -63,12 +63,12 @@ Future<PictureFolder?> selectFolder() async {
   if (selectedDirectory != null) {
     // User canceled the picker
     debugPrint("selectedDirectory: $selectedDirectory");
-    var newFolder = PictureFolder("3",
-        title: "文档",
+    var newFolder = PictureFolder(selectedDirectory,
+        title: path.basename(selectedDirectory),
         count: 182,
         icon: "static/images/icons/folder.svg",
-        path: "/Users/Larry/Documents");
-    //addFolder(newFolder);
+        path: selectedDirectory);
+    addFolder(newFolder);
 
     return newFolder;
   }
