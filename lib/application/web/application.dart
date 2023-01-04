@@ -41,3 +41,7 @@ class _WebApplicationState extends State<WebApplication> {
     );
   }
 }
+
+Future<Widget> initApp() async {
+  return const WebApplication();
+}
