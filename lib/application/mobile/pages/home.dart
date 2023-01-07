@@ -1,38 +1,27 @@
+import 'package:dream/services/folder.dart';
 import 'package:flutter/material.dart';
 
-import '../components/work_group.dart';
-
-class EmotionPage extends StatelessWidget {
-  const EmotionPage({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return const EmotionScreen();
-  }
-}
-
-class EmotionScreen extends StatelessWidget {
-  const EmotionScreen({Key? key}) : super(key: key);
+class MHomePage extends StatelessWidget {
+  const MHomePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
         color: Colors.white,
-        child: Column(
-          children: [
-            Expanded(
-                child: GestureDetector(
-                    onTapDown: (detail) {
-                      debugPrint("out click");
-                    },
-                    child: Row(children: [
-                      Container(
-                          width: 56,
-                          padding: const EdgeInsets.only(top: 8),
-                          color: const Color.fromRGBO(242, 246, 255, 100),
-                          child: const WorkGroupWidget()),
-                    ])))
-          ],
+        child: Center(
+          child: TextButton(
+            onPressed: () async {
+              debugPrint("点击按钮");
+
+              var folder = await Folders.pickFolder();
+              if (folder != null) {
+                debugPrint("选择了文件夹: ${folder.path}");
+              } else {
+                debugPrint("什么都没有选择");
+              }
+            },
+            child: Text("点击"),
+          ),
         ));
   }
 }

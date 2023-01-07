@@ -128,7 +128,6 @@ class MobileRouterDelegate extends RouterDelegate<MobileRoutePath>
     return Navigator(
       key: navigatorKey,
       pages: pages,
-      //pages: [MyPage(_stack[_currentIndex])],
       onPopPage: _onPopPage,
     );
   }

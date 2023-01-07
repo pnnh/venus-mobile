@@ -2,8 +2,7 @@ import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:dream/application/mobile/route.dart';
 import 'package:flutter/material.dart';
 
-import 'emotion/emotion.dart';
-import 'other.dart';
+import 'home.dart';
 
 class MobilePage extends Page {
   final MobileRoutePath routePath;
@@ -32,9 +31,7 @@ class MobilePage extends Page {
 Widget selectPage(Uri uri) {
   debugPrint("uri_path ${uri.path}");
   switch (uri.path) {
-    case "/other":
-      return const OtherPage();
     default:
-      return const EmotionPage();
+      return const MHomePage();
   }
 }
