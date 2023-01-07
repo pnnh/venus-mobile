@@ -26,7 +26,7 @@ class _DesktopApplicationState extends State<DesktopApplication> {
   }
 }
 
-Future<Widget> initApp() async {
+Future<Widget> initDesktopApp() async {
   doWhenWindowReady(() {
     appWindow.minSize = const Size(640, 480);
     appWindow.size = const Size(1280, 900);

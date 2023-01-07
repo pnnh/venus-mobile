@@ -504,7 +504,7 @@ packages:
   pillow:
     dependency: "direct main"
     description:
-      path: "../../quantum/quantum-flutter"
+      path: "plugins/pillow"
       relative: true
     source: path
     version: "0.0.1"
