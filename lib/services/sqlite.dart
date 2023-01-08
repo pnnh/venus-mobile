@@ -37,6 +37,17 @@ class SqliteStore {
     return db;
   }
 
+  static Future<Map<String, dynamic>?> getByPk(String table, String pk) async {
+    final db = await getDatabase();
+
+    final List<Map<String, dynamic>> maps =
+        await db.query(table, where: "pk=?", whereArgs: [pk]);
+    if (maps.isNotEmpty) {
+      return maps.first;
+    }
+    return null;
+  }
+
   static Future<List<Map<String, dynamic>>> query(String table) async {
     final db = await getDatabase();
 

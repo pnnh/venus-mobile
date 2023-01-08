@@ -1,38 +1,41 @@
 import 'dart:io';
 
+import 'package:dream/services/folder.dart';
 import 'package:dream/services/models/picture.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:path/path.dart' as path;
 
-import '../providers/emotion.dart';
+final StateProvider<String> _gridProvider = StateProvider((_) => "");
 
-class MPicturesPage extends StatefulWidget {
-  const MPicturesPage({Key? key}) : super(key: key);
+class MPicturesPage extends ConsumerWidget {
+  String folderPk = "";
+
+  MPicturesPage({Key? key, required this.folderPk}) : super(key: key);
 
   @override
-  State<MPicturesPage> createState() => _MPicturesPageState();
-}
-
-class _MPicturesPageState extends State<MPicturesPage> {
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     debugPrint("current directory: ${Directory.current}");
-    return Container(
-        color: Colors.white,
-        child: Column(
-          children: [
-            Expanded(
-                child: Row(children: [
-              Expanded(child: _PicturesGrid()),
-            ]))
-          ],
-        ));
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("图片列表"),
+      ),
+      backgroundColor: Colors.white,
+      body: SafeArea(
+        child: Container(
+            color: Colors.white,
+            child: _PicturesGrid(
+              folderPk: this.folderPk,
+            )),
+      ),
+    );
   }
 }
 
 class _PicturesGrid extends ConsumerWidget {
-  const _PicturesGrid({Key? key}) : super(key: key);
+  String folderPk = "";
+
+  _PicturesGrid({Key? key, required this.folderPk}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -41,7 +44,7 @@ class _PicturesGrid extends ConsumerWidget {
         padding: EdgeInsets.all(16),
         height: 4000,
         child: FutureBuilder<List<PictureModel>>(
-          future: selectPics(ref.watch(folderProvider)),
+          future: _selectPics(this.folderPk),
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             //debugPrint("pics: ${snapshot.data}");
             if (!snapshot.hasData) {
@@ -66,6 +69,17 @@ class _PicturesGrid extends ConsumerWidget {
       ),
     );
   }
+
+  Future<List<PictureModel>> _selectPics(String folderPk) async {
+    var folderModel = await getFolder(folderPk);
+    if (folderModel == null) {
+      return List.empty();
+    }
+
+    var pics = await selectPics(folderModel.path);
+
+    return pics;
+  }
 }
 
 class _PicturesImageCell extends ConsumerWidget {
@@ -85,7 +99,7 @@ class _PicturesImageCell extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var pk = ref.watch(gridProvider);
+    var pk = ref.watch(_gridProvider);
     return Column(children: [
       Expanded(
         child: Container(
@@ -121,7 +135,7 @@ class _PicturesImageCell extends ConsumerWidget {
       else
         GestureDetector(
           onTap: () {
-            ref.read(gridProvider.notifier).update((state) => model.pk);
+            ref.read(_gridProvider.notifier).update((state) => model.pk);
             _controller.selection = TextSelection(
                 baseOffset: 0, extentOffset: _controller.value.text.length);
           },

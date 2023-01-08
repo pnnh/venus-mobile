@@ -3,8 +3,7 @@ import 'package:dream/services/models/folder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
-
-import '../route.dart';
+import 'package:go_router/go_router.dart';
 
 final StateProvider<String> _directoryProvider = StateProvider((_) => "");
 
@@ -13,32 +12,38 @@ class MHomePage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return SafeArea(
-        child: Container(
-            color: Colors.white,
-            child: Column(
-              children: [
-                const _MFoldersPartial(),
-                Center(
-                  child: TextButton(
-                    onPressed: () async {
-                      debugPrint("点击按钮");
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("选择图片"),
+      ),
+      backgroundColor: Colors.white,
+      body: SafeArea(
+          child: Container(
+              color: Colors.white,
+              child: Column(
+                children: [
+                  const _MFoldersPartial(),
+                  Center(
+                    child: TextButton(
+                      onPressed: () async {
+                        debugPrint("点击按钮");
 
-                      var folder = await Folders.pickFolder();
-                      if (folder != null) {
-                        debugPrint("选择了文件夹: ${folder.path}");
-                        ref
-                            .read(_directoryProvider.notifier)
-                            .update((state) => folder.path);
-                      } else {
-                        debugPrint("什么都没有选择");
-                      }
-                    },
-                    child: Text("点击"),
-                  ),
-                )
-              ],
-            )));
+                        var folder = await Folders.pickFolder();
+                        if (folder != null) {
+                          debugPrint("选择了文件夹: ${folder.path}");
+                          ref
+                              .read(_directoryProvider.notifier)
+                              .update((state) => folder.path);
+                        } else {
+                          debugPrint("什么都没有选择");
+                        }
+                      },
+                      child: Text("点击"),
+                    ),
+                  )
+                ],
+              ))),
+    );
   }
 }
 
@@ -47,7 +52,6 @@ class _MFoldersPartial extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var routerDelegate = MobileRouterDelegate.of(context);
     return FutureBuilder<List<PictureFolder>>(
         future: selectFolders(ref.watch(_directoryProvider)),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -75,7 +79,7 @@ class _MFoldersPartial extends ConsumerWidget {
                         behavior: HitTestBehavior.translucent,
                         onTap: () {
                           debugPrint("点击动图");
-                          routerDelegate.go("/pictures");
+                          context.go("/pictures/${item.pk}");
                         },
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,

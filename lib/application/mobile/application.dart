@@ -1,5 +1,6 @@
 import 'package:dream/application/mobile/route.dart';
-import 'package:fluent_ui/fluent_ui.dart';
+//import 'package:fluent_ui/fluent_ui.dart';
+import 'package:flutter/material.dart';
 
 class MobileApplication extends StatefulWidget {
   const MobileApplication({Key? key}) : super(key: key);
@@ -9,25 +10,20 @@ class MobileApplication extends StatefulWidget {
 }
 
 class _MobileApplicationState extends State<MobileApplication> {
-  final MobileRouterDelegate _routerDelegate = MobileRouterDelegate();
-  final MobileRouteInformationParser _routeInformationParser =
-      MobileRouteInformationParser();
-
   @override
   Widget build(BuildContext context) {
-    return FluentApp.router(
+    return MaterialApp.router(
       title: 'Mobile App',
+      routerConfig: globalRouter,
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
           scaffoldBackgroundColor: Colors.white,
-          accentColor: Colors.blue,
           iconTheme: const IconThemeData(size: 24)),
       darkTheme: ThemeData(
           scaffoldBackgroundColor: Colors.black,
-          accentColor: Colors.blue,
           iconTheme: const IconThemeData(size: 24)),
-      routerDelegate: _routerDelegate,
-      routeInformationParser: _routeInformationParser,
+      // routerDelegate: globalRouter.routerDelegate,
+      // routeInformationParser: globalRouter.routeInformationParser,
       color: Colors.white,
     );
   }

@@ -39,6 +39,15 @@ class Folders {
   }
 }
 
+Future<PictureFolder?> getFolder(String pk) async {
+  final Map<String, dynamic>? data = await SqliteStore.getByPk('folders', pk);
+
+  if (data != null) {
+    return PictureFolder.fromJson(data);
+  }
+  return null;
+}
+
 Future<List<PictureFolder>> selectFolders(String path) async {
   final List<Map<String, dynamic>> maps = await SqliteStore.query('folders');
 
