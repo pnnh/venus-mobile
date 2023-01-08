@@ -37,6 +37,8 @@ PODS:
   - FMDB (2.7.5):
     - FMDB/standard (= 2.7.5)
   - FMDB/standard (2.7.5)
+  - path_provider_ios (0.0.1):
+    - Flutter
   - pillow (0.0.1):
     - Flutter
   - SDWebImage (5.14.3):
@@ -52,6 +54,7 @@ PODS:
 DEPENDENCIES:
   - file_picker (from `.symlinks/plugins/file_picker/ios`)
   - Flutter (from `Flutter`)
+  - path_provider_ios (from `.symlinks/plugins/path_provider_ios/ios`)
   - pillow (from `.symlinks/plugins/pillow/ios`)
   - sqflite (from `.symlinks/plugins/sqflite/ios`)
   - video_player_avfoundation (from `.symlinks/plugins/video_player_avfoundation/ios`)
@@ -69,6 +72,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/file_picker/ios"
   Flutter:
     :path: Flutter
+  path_provider_ios:
+    :path: ".symlinks/plugins/path_provider_ios/ios"
   pillow:
     :path: ".symlinks/plugins/pillow/ios"
   sqflite:
@@ -82,7 +87,8 @@ SPEC CHECKSUMS:
   file_picker: 817ab1d8cd2da9d2da412a417162deee3500fc95
   Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
-  pillow: 599402f94ca4856df0724169d95a37ebce1e1a12
+  path_provider_ios: 14f3d2fd28c4fdb42f44e0f751d12861c43cee02
+  pillow: 5199d0ddfe26f4b7052190cf315778a3232e4020
   SDWebImage: 9c36e66c8ce4620b41a7407698dda44211a96764
   sqflite: 6d358c025f5b867b29ed92fc697fd34924e11904
   SwiftyGif: 6c3eafd0ce693cad58bb63d2b2fb9bacb8552780

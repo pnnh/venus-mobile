@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 
 Future<Widget> initApp() async {
   if (Platform.isIOS || Platform.isAndroid) {
-    return const MobileApplication();
+    return initMobileApp();
   } else {
     return initDesktopApp();
   }

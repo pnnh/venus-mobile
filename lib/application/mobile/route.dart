@@ -1,4 +1,4 @@
-import 'package:dream/application/mobile/pages/base.dart';
+import 'package:dream/application/mobile/pages/home.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
@@ -18,10 +18,6 @@ class MobileRoutePath {
   }
 
   MobileRoutePath.home() : this("/");
-
-  MobileRoutePath.calendar() : this("/calendar");
-
-  MobileRoutePath.other() : this("/other");
 }
 
 class MobileRouteInformationParser
@@ -130,5 +126,35 @@ class MobileRouterDelegate extends RouterDelegate<MobileRoutePath>
       pages: pages,
       onPopPage: _onPopPage,
     );
+  }
+}
+
+class MobilePage extends Page {
+  final MobileRoutePath routePath;
+
+  MobilePage(
+    this.routePath,
+  ) : super(name: routePath.uri.toString(), key: ValueKey(routePath));
+
+  @override
+  Route createRoute(BuildContext context) {
+    return MobilePageRoute(
+      (BuildContext context) {
+        debugPrint("createRoute ${routePath.uri}");
+        return Scaffold(
+          backgroundColor: Colors.white,
+          body: selectPage(routePath.uri),
+        );
+      },
+      settings: this,
+    );
+  }
+}
+
+Widget selectPage(Uri uri) {
+  debugPrint("uri_path ${uri.path}");
+  switch (uri.path) {
+    default:
+      return const MHomePage();
   }
 }

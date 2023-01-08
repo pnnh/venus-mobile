@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:dream/application/desktop/providers/emotion.dart';
+import 'package:dream/services/folder.dart';
 import 'package:dream/services/models/folder.dart';
 import 'package:dream/utils/utils.dart';
 import 'package:file_picker/file_picker.dart';
@@ -8,7 +9,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:macos_secure_bookmarks/macos_secure_bookmarks.dart';
-import 'package:provider/provider.dart';
 import 'package:path/path.dart' as path;
 
 final StateProvider<String> directoryProvider = StateProvider((_) => "");

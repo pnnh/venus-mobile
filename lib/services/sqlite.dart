@@ -1,26 +1,22 @@
 import 'dart:io';
 
-import 'package:dream/utils/path.dart';
 import 'package:flutter/foundation.dart';
 import 'package:path/path.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
-
-import 'models/folder.dart';
 
 var databaseName = 'doggie_database.db';
 
 class SqliteStore {
-  static SqliteStore defaultStore = SqliteStore();
-
-  late Future<Database> database;
-
-  SqliteStore() {
-    var homeDir = homeDirectory();
-    var fullPath = "$homeDir/Documents/$databaseName";
+  static Future<Database> getDatabase() async {
+    Directory appDocDir = await getApplicationDocumentsDirectory();
+    String appDocPath = appDocDir.path;
+    var homeDir = appDocPath; //appHomeDirectory();
+    var fullPath = join(homeDir, databaseName);
     debugPrint("fullPath: $fullPath");
 
     var db = openDatabase(
-      join(fullPath, databaseName),
+      fullPath,
       onCreate: (db, version) {
         var createDDL = """create table main.folders
 (
@@ -28,7 +24,8 @@ class SqliteStore {
     title TEXT,
     path  TEXT,
     count integer,
-    icon  text
+    icon  text,
+    bookmark text
 );
 """;
         return db.execute(
@@ -37,19 +34,19 @@ class SqliteStore {
       },
       version: 1,
     );
-    database = db;
+    return db;
   }
 
-  Future<List<Map<String, dynamic>>> query(String table) async {
-    final db = await database;
+  static Future<List<Map<String, dynamic>>> query(String table) async {
+    final db = await getDatabase();
 
     final List<Map<String, dynamic>> maps = await db.query(table);
 
     return maps;
   }
 
-  Future<void> insert(String table, Map<String, Object?> values) async {
-    final db = await database;
+  static Future<void> insert(String table, Map<String, Object?> values) async {
+    final db = await getDatabase();
 
     await db.insert(
       table,

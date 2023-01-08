@@ -25,19 +25,3 @@ class PictureFolder {
 
   Map<String, dynamic> toJson() => _$PictureFolderToJson(this);
 }
-
-Future<List<PictureFolder>> selectFolders(String path) async {
-  final List<Map<String, dynamic>> maps =
-      await SqliteStore.defaultStore.query('folders');
-
-  return List.generate(maps.length, (i) {
-    return PictureFolder.fromJson(maps[i]);
-  });
-}
-
-Future<void> insertFolder(PictureFolder dog) async {
-  await SqliteStore.defaultStore.insert(
-    'folders',
-    dog.toJson(),
-  );
-}
