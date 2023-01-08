@@ -1,5 +1,3 @@
-import 'package:dream/services/sqlite.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'folder.g.dart';

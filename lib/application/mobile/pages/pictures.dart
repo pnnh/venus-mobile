@@ -19,14 +19,6 @@ class MPicturesPage extends ConsumerStatefulWidget {
 }
 
 class _MPicturesPageState extends ConsumerState<MPicturesPage> {
-  final _searchTextController = TextEditingController();
-
-  @override
-  void dispose() {
-    _searchTextController.dispose();
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
     debugPrint("current directory: ${Directory.current}");
@@ -43,7 +35,6 @@ class _MPicturesPageState extends ConsumerState<MPicturesPage> {
                 Container(
                   padding: EdgeInsets.all(16),
                   child: TextField(
-                    controller: _searchTextController,
                     onChanged: (newText) {
                       debugPrint("newText $newText");
                       ref

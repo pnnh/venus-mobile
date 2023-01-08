@@ -1,13 +1,13 @@
 import 'dart:io';
 import 'dart:io' show Platform;
 
-import 'package:dream/services/sqlite.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:macos_secure_bookmarks/macos_secure_bookmarks.dart';
 import 'package:path/path.dart';
 
 import '../utils/utils.dart';
+import 'database.dart';
 import 'models/folder.dart';
 
 class Folders {
@@ -40,7 +40,7 @@ class Folders {
 }
 
 Future<PictureFolder?> getFolder(String pk) async {
-  final Map<String, dynamic>? data = await SqliteStore.getByPk('folders', pk);
+  final Map<String, dynamic>? data = await getByPk('folders', pk);
 
   if (data != null) {
     return PictureFolder.fromJson(data);
@@ -49,7 +49,7 @@ Future<PictureFolder?> getFolder(String pk) async {
 }
 
 Future<List<PictureFolder>> selectFolders(String path) async {
-  final List<Map<String, dynamic>> maps = await SqliteStore.query('folders');
+  final List<Map<String, dynamic>> maps = await query('folders');
 
   return List.generate(maps.length, (i) {
     return PictureFolder.fromJson(maps[i]);
@@ -57,7 +57,7 @@ Future<List<PictureFolder>> selectFolders(String path) async {
 }
 
 Future<void> insertFolder(PictureFolder dog) async {
-  await SqliteStore.insert(
+  await insert(
     'folders',
     dog.toJson(),
   );
