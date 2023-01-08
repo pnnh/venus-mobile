@@ -17,9 +17,11 @@ class _MobileApplicationState extends State<MobileApplication> {
       routerConfig: globalRouter,
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
+          useMaterial3: true,
           scaffoldBackgroundColor: Colors.white,
           iconTheme: const IconThemeData(size: 24)),
       darkTheme: ThemeData(
+          useMaterial3: true,
           scaffoldBackgroundColor: Colors.black,
           iconTheme: const IconThemeData(size: 24)),
       // routerDelegate: globalRouter.routerDelegate,

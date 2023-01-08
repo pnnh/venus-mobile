@@ -14,7 +14,7 @@ class MHomePage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("选择图片"),
+        title: const Text("选择文件夹"),
       ),
       backgroundColor: Colors.white,
       body: SafeArea(

@@ -1,11 +1,11 @@
 import 'dart:io';
 
-import 'package:dream/services/models/folder.dart';
 import 'package:dream/utils/image.dart';
 import 'package:dream/utils/utils.dart';
 import 'package:flutter/foundation.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:macos_secure_bookmarks/macos_secure_bookmarks.dart';
+import 'package:path/path.dart';
 
 part 'picture.g.dart';
 
@@ -42,7 +42,8 @@ Future<void> macosAccessingSecurityScopedResource(String bookmark) async {
   await secureBookmarks.startAccessingSecurityScopedResource(resolvedFile);
 }
 
-Future<List<PictureModel>> selectPics(String folderPath) async {
+Future<List<PictureModel>> selectPics(String folderPath,
+    {String searchText = ""}) async {
   debugPrint("selectPics: $folderPath");
   if (folderPath.trim().isEmpty) {
     return List.empty();
@@ -58,6 +59,10 @@ Future<List<PictureModel>> selectPics(String folderPath) async {
       var isPic = isImage(entity.path);
       debugPrint("isPic: ${entity.path} $isPic");
       if (!isPic) continue;
+      if (searchText.isNotEmpty) {
+        var baseName = basename(entity.path).toLowerCase();
+        if (!baseName.contains(searchText.toLowerCase())) continue;
+      }
       var picPk = generateRandomString(16);
       var pic = PictureModel(picPk, entity.path);
       files.add(pic);

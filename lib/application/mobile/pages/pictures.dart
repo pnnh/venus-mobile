@@ -7,14 +7,28 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:path/path.dart' as path;
 
 final StateProvider<String> _gridProvider = StateProvider((_) => "");
+final StateProvider<String> _searchProvider = StateProvider((_) => "");
 
-class MPicturesPage extends ConsumerWidget {
-  String folderPk = "";
+class MPicturesPage extends ConsumerStatefulWidget {
+  final String folderPk;
 
-  MPicturesPage({Key? key, required this.folderPk}) : super(key: key);
+  const MPicturesPage({Key? key, required this.folderPk}) : super(key: key);
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<MPicturesPage> createState() => _MPicturesPageState();
+}
+
+class _MPicturesPageState extends ConsumerState<MPicturesPage> {
+  final _searchTextController = TextEditingController();
+
+  @override
+  void dispose() {
+    _searchTextController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     debugPrint("current directory: ${Directory.current}");
     return Scaffold(
       appBar: AppBar(
@@ -24,8 +38,33 @@ class MPicturesPage extends ConsumerWidget {
       body: SafeArea(
         child: Container(
             color: Colors.white,
-            child: _PicturesGrid(
-              folderPk: this.folderPk,
+            child: Column(
+              children: [
+                Container(
+                  padding: EdgeInsets.all(16),
+                  child: TextField(
+                    controller: _searchTextController,
+                    onChanged: (newText) {
+                      debugPrint("newText $newText");
+                      ref
+                          .watch(_searchProvider.notifier)
+                          .update((state) => newText);
+                    },
+                    enableInteractiveSelection: true,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      hintText: "搜索图片",
+                      contentPadding:
+                          EdgeInsets.only(bottom: 4, top: 4, left: 8, right: 8),
+                    ),
+                  ),
+                ),
+                Expanded(
+                    child: _PicturesGrid(
+                  folderPk: widget.folderPk,
+                  searchText: ref.watch(_searchProvider),
+                ))
+              ],
             )),
       ),
     );
@@ -34,8 +73,10 @@ class MPicturesPage extends ConsumerWidget {
 
 class _PicturesGrid extends ConsumerWidget {
   String folderPk = "";
+  String searchText;
 
-  _PicturesGrid({Key? key, required this.folderPk}) : super(key: key);
+  _PicturesGrid({Key? key, required this.folderPk, this.searchText = ""})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -44,7 +85,7 @@ class _PicturesGrid extends ConsumerWidget {
         padding: EdgeInsets.all(16),
         height: 4000,
         child: FutureBuilder<List<PictureModel>>(
-          future: _selectPics(this.folderPk),
+          future: _selectPics(this.folderPk, this.searchText),
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             //debugPrint("pics: ${snapshot.data}");
             if (!snapshot.hasData) {
@@ -70,13 +111,14 @@ class _PicturesGrid extends ConsumerWidget {
     );
   }
 
-  Future<List<PictureModel>> _selectPics(String folderPk) async {
+  Future<List<PictureModel>> _selectPics(String folderPk, searchText) async {
+    debugPrint("_searchPics $folderPk $searchText");
     var folderModel = await getFolder(folderPk);
     if (folderModel == null) {
       return List.empty();
     }
 
-    var pics = await selectPics(folderModel.path);
+    var pics = await selectPics(folderModel.path, searchText: searchText);
 
     return pics;
   }
