@@ -4,6 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 
+import '../route.dart';
+
+final StateProvider<String> _directoryProvider = StateProvider((_) => "");
+
 class MHomePage extends ConsumerWidget {
   const MHomePage({Key? key}) : super(key: key);
 
@@ -14,7 +18,7 @@ class MHomePage extends ConsumerWidget {
             color: Colors.white,
             child: Column(
               children: [
-                const MFoldersPartial(),
+                const _MFoldersPartial(),
                 Center(
                   child: TextButton(
                     onPressed: () async {
@@ -24,7 +28,7 @@ class MHomePage extends ConsumerWidget {
                       if (folder != null) {
                         debugPrint("选择了文件夹: ${folder.path}");
                         ref
-                            .read(directoryProvider.notifier)
+                            .read(_directoryProvider.notifier)
                             .update((state) => folder.path);
                       } else {
                         debugPrint("什么都没有选择");
@@ -38,15 +42,14 @@ class MHomePage extends ConsumerWidget {
   }
 }
 
-final StateProvider<String> directoryProvider = StateProvider((_) => "");
-
-class MFoldersPartial extends ConsumerWidget {
-  const MFoldersPartial({Key? key}) : super(key: key);
+class _MFoldersPartial extends ConsumerWidget {
+  const _MFoldersPartial({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    var routerDelegate = MobileRouterDelegate.of(context);
     return FutureBuilder<List<PictureFolder>>(
-        future: selectFolders(ref.watch(directoryProvider)),
+        future: selectFolders(ref.watch(_directoryProvider)),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (!snapshot.hasData) {
             return Center(
@@ -72,6 +75,7 @@ class MFoldersPartial extends ConsumerWidget {
                         behavior: HitTestBehavior.translucent,
                         onTap: () {
                           debugPrint("点击动图");
+                          routerDelegate.go("/pictures");
                         },
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,

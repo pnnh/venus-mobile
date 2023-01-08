@@ -2,6 +2,8 @@ import 'package:dream/application/mobile/pages/home.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
+import 'pages/pictures.dart';
+
 class MobilePageRoute extends MaterialPageRoute {
   MobilePageRoute(WidgetBuilder builder, {RouteSettings? settings})
       : super(settings: settings, builder: builder);
@@ -154,6 +156,8 @@ class MobilePage extends Page {
 Widget selectPage(Uri uri) {
   debugPrint("uri_path ${uri.path}");
   switch (uri.path) {
+    case "/pictures":
+      return const MPicturesPage();
     default:
       return const MHomePage();
   }
