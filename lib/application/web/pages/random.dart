@@ -1,6 +1,6 @@
+import 'package:dream/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:pillow/pillow.dart';
 
 import 'partial/header.dart';
 
@@ -181,12 +181,13 @@ class _RandomPageState extends State<RandomPage> {
                             fixedSize: const Size(100, 32)),
                         onPressed: () async {
                           //var result = await promiseToFuture(sayHello());
-                          var result = await Pillow.randomString(
-                              length: length,
-                              hasNumber: hasNumber,
-                              hasLetter: hasLetter,
-                              hasUppercaseLetter: hasUppercaseLetter,
-                              hasSymbol: hasSymbol);
+                          // var result = await Pillow.randomString(
+                          //     length: length,
+                          //     hasNumber: hasNumber,
+                          //     hasLetter: hasLetter,
+                          //     hasUppercaseLetter: hasUppercaseLetter,
+                          //     hasSymbol: hasSymbol);
+                          var result = generateRandomString(length);
                           // var result = await promiseToFuture(
                           //     randomString(length, false, false, false, false));
                           debugPrint("--> $result");

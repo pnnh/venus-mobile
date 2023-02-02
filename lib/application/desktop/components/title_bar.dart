@@ -2,7 +2,6 @@ import 'dart:io' show Platform;
 
 import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:dream/application/desktop/components/window.dart';
-import 'package:dream/application/desktop/route.dart';
 import 'package:flutter/material.dart';
 
 class TitleBarWidget extends StatefulWidget {
@@ -29,7 +28,6 @@ class _TitleBarWidget extends State<TitleBarWidget> {
 
   @override
   Widget build(BuildContext context) {
-    var routerDelegate = DesktopRouterDelegate.of(context);
     return Container(
         height: 40,
         color: const Color(0xffF4F0EE),

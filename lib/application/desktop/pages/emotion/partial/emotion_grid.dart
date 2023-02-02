@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:dream/application/desktop/providers/emotion.dart';
+import 'package:dream/application/providers/emotion.dart';
 import 'package:dream/services/models/folder.dart';
 import 'package:dream/services/models/picture.dart';
 import 'package:flutter/material.dart';

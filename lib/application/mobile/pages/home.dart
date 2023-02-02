@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:dream/services/folder.dart';
 import 'package:dream/services/models/folder.dart';
 import 'package:flutter/material.dart';
@@ -12,38 +14,53 @@ class MHomePage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("选择文件夹"),
-      ),
-      backgroundColor: Colors.white,
-      body: SafeArea(
-          child: Container(
-              color: Colors.white,
-              child: Column(
-                children: [
-                  const _MFoldersPartial(),
-                  Center(
-                    child: TextButton(
-                      onPressed: () async {
-                        debugPrint("点击按钮");
+    return LayoutBuilder(
+      builder: (BuildContext context, BoxConstraints constraints) {
+        Size screenSize = MediaQuery.of(context).size;
+        print("screenSize $screenSize");
 
-                        var folder = await Folders.pickFolder();
-                        if (folder != null) {
-                          debugPrint("选择了文件夹: ${folder.path}");
-                          ref
-                              .read(_directoryProvider.notifier)
-                              .update((state) => folder.path);
-                        } else {
-                          debugPrint("什么都没有选择");
-                        }
-                      },
-                      child: Text("点击"),
-                    ),
-                  )
-                ],
-              ))),
+        return ConstrainedBox(
+          constraints: BoxConstraints.tightFor(
+              height: max(512, constraints.maxHeight)),
+          child: Scaffold(
+            body: Scaffold(
+              appBar: AppBar(
+                title: const Text("选择文件夹"),
+              ),
+              backgroundColor: Colors.white,
+              body: SafeArea(
+                  child: Container(
+                      color: Colors.white,
+                      child: Column(
+                        children: [
+                          const _MFoldersPartial(),
+                          Center(
+                            child: TextButton(
+                              onPressed: () async {
+                                debugPrint("点击按钮");
+
+                                var folder = await Folders.pickFolder();
+                                if (folder != null) {
+                                  debugPrint("选择了文件夹: ${folder.path}");
+                                  ref
+                                      .read(_directoryProvider.notifier)
+                                      .update((state) => folder.path);
+                                } else {
+                                  debugPrint("什么都没有选择");
+                                }
+                              },
+                              child: Text("点击"),
+                            ),
+                          )
+                        ],
+                      ))),
+            ),
+            backgroundColor: const Color(0xffFAFAFA),
+          ), // your column
+        );
+      },
     );
+
   }
 }
 
@@ -114,3 +131,4 @@ class _MFoldersPartial extends ConsumerWidget {
         });
   }
 }
+

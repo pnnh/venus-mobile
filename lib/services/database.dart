@@ -3,34 +3,17 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:quantum/database/database.dart';
+import 'package:quantum/quantum.dart';
+
+import 'package:sqlite3/sqlite3.dart';
+import 'package:flutter/services.dart' show rootBundle;
 
 const databaseName = 'venus_database.db';
 
-DataStore? _dataStore;
+Database? _globalDatabase;
 
-const foldersCreateDDL = """create table main.folders
-(
-    pk    TEXT primary key,
-    title TEXT,
-    path  TEXT,
-    count integer,
-    icon  text,
-    bookmark text
-);
-""";
-
-const fullTextSearchCreateDDL = """create virtual table main.searches
-using fts5(
-    pk unindexed,
-    type unindexed,
-    title,
-    body
-);
-""";
-
-Future<DataStore> _getDataStore() async {
-  if (_dataStore != null) return _dataStore!;
+Future<Database> getDataStore() async {
+  if (_globalDatabase != null) return _globalDatabase!;
 
   Directory appDocDir = await getApplicationDocumentsDirectory();
   String appDocPath = appDocDir.path;
@@ -38,43 +21,43 @@ Future<DataStore> _getDataStore() async {
   var fullPath = join(homeDir, databaseName);
   debugPrint("fullPath: $fullPath");
 
-  var ds = DataStore(
-    fullPath,
-    onCreate: (db, version) {
-      db.execute(foldersCreateDDL);
-      db.execute(fullTextSearchCreateDDL);
-    },
-    version: 1,
-  );
+  var initSql = await rootBundle.loadString('static/sql/init.sql');
 
-  _dataStore = ds;
-  return ds;
+  final db = sqlite3.open(fullPath);
+
+  db.loadSimpleExtension();
+
+  db.execute(initSql);
+
+  _globalDatabase = db;
+
+  return db;
 }
 
-Future<Map<String, dynamic>?> getByPk(String table, String pk) async {
-  final db = await _getDataStore();
+// Future<Map<String, dynamic>?> getByPk(String table, String pk) async {
+//   final db = await _getDataStore();
+//
+//   final List<Map<String, dynamic>> maps =
+//       await db.select(table, [pk]);
+//   if (maps.isNotEmpty) {
+//     return maps.first;
+//   }
+//   return null;
+// }
 
-  final List<Map<String, dynamic>> maps =
-      await db.query(table, where: "pk=?", whereArgs: [pk]);
-  if (maps.isNotEmpty) {
-    return maps.first;
-  }
-  return null;
-}
-
-Future<List<Map<String, dynamic>>> query(String table) async {
-  final db = await _getDataStore();
-
-  final List<Map<String, dynamic>> maps = await db.query(table);
-
-  return maps;
-}
-
-Future<void> insert(String table, Map<String, Object?> values) async {
-  final db = await _getDataStore();
-
-  await db.insert(
-    table,
-    values,
-  );
-}
+// Future<List<Map<String, dynamic>>> query(String table) async {
+//   final db = await _getDataStore();
+//
+//   final List<Map<String, dynamic>> maps = await db.query(table);
+//
+//   return maps;
+// }
+//
+// Future<void> insert(String table, Map<String, Object?> values) async {
+//   final db = await _getDataStore();
+//
+//   await db.insert(
+//     table,
+//     values,
+//   );
+// }

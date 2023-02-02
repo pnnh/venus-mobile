@@ -40,25 +40,38 @@ class Folders {
 }
 
 Future<PictureFolder?> getFolder(String pk) async {
-  final Map<String, dynamic>? data = await getByPk('folders', pk);
 
-  if (data != null) {
-    return PictureFolder.fromJson(data);
-  }
+  final db = await getDataStore();
+
+  var sqlText = "select * from folders where pk = ?";
+
+  //var resultSet = db.select(sqlText, [pk]);
+
+  // if (resultSet.rows.isNotEmpty) {
+  //   return resultSet.rows.first;
+  // }
   return null;
+
+  // final Map<String, dynamic>? data = await getByPk('folders', pk);
+  //
+  // if (data != null) {
+  //   return PictureFolder.fromJson(data);
+  // }
+  // return null;
 }
 
 Future<List<PictureFolder>> selectFolders(String path) async {
-  final List<Map<String, dynamic>> maps = await query('folders');
-
-  return List.generate(maps.length, (i) {
-    return PictureFolder.fromJson(maps[i]);
-  });
+  // final List<Map<String, dynamic>> maps = await query('folders');
+  //
+  // return List.generate(maps.length, (i) {
+  //   return PictureFolder.fromJson(maps[i]);
+  // });
+  return List.empty();
 }
 
 Future<void> insertFolder(PictureFolder dog) async {
-  await insert(
-    'folders',
-    dog.toJson(),
-  );
+  // await insert(
+  //   'folders',
+  //   dog.toJson(),
+  // );
 }

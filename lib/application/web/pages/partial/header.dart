@@ -1,15 +1,13 @@
 import 'dart:math';
 
-import 'package:dream/application/web/route.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class HeaderWidget extends StatelessWidget {
   const HeaderWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    var routerDelegate = WebRouterDelegate.of(context);
-
     return Container(
       decoration: BoxDecoration(
           color: Colors.white,
@@ -65,7 +63,7 @@ class HeaderWidget extends StatelessWidget {
                                   overlayColor: MaterialStateProperty.all(
                                       Colors.transparent)),
                               onPressed: () async {
-                                routerDelegate.go("/");
+                                context.go("/");
                               },
                               child: const Text(
                                 "资源",
@@ -81,7 +79,7 @@ class HeaderWidget extends StatelessWidget {
                                   overlayColor: MaterialStateProperty.all(
                                       Colors.transparent)),
                               onPressed: () async {
-                                routerDelegate.go("/random");
+                                context.go("/random");
                               },
                               child: const Text(
                                 "程序",

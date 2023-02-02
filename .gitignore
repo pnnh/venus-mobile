@@ -23,7 +23,6 @@
 .pub/
 /build/
 
-
 app.*.symbols
 
 app.*.map.json

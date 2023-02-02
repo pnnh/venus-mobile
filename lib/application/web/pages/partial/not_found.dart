@@ -1,12 +1,12 @@
-import 'package:dream/application/web/route.dart';
-import 'package:flutter/material.dart'; 
+
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class NotFoundWidget extends StatelessWidget {
   const NotFoundWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    var routerDelegate = WebRouterDelegate.of(context);
     return Center(
       child: Column(children: [
         Text("资源不存在"),
@@ -18,7 +18,7 @@ class NotFoundWidget extends StatelessWidget {
               splashFactory: NoSplash.splashFactory,
               overlayColor: MaterialStateProperty.all(Colors.transparent)),
           onPressed: () async {
-            routerDelegate.go("/");
+            context.go("/");
           },
         )
       ]),

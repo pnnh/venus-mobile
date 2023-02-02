@@ -1,6 +1,7 @@
-import 'package:dream/application/desktop/route.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 
 import 'avatar.dart';
 
@@ -17,48 +18,37 @@ class _WorkGroupWidget extends State<WorkGroupWidget> {
 
   @override
   Widget build(BuildContext context) {
-    var routerDelegate = DesktopRouterDelegate.of(context);
-    debugPrint("work_group ${routerDelegate.currentConfiguration.uri}");
     return Column(children: [
       const AvatarWidget(),
       const SizedBox(height: 24),
       IconButton(
           icon: SvgPicture.asset(
             "static/images/icons/todo.svg",
-            color: routerDelegate.currentConfiguration.uri.path ==
-                    DesktopRoutePath.home().uri.path
-                ? selectedColor
-                : defaultColor,
+            color: defaultColor,
           ),
           iconSize: 24,
           onPressed: () {
-            routerDelegate.go("/");
+            context.go("/");
           }),
       const SizedBox(height: 24),
       IconButton(
           icon: SvgPicture.asset(
             "static/images/icons/booklet.svg",
-            color: routerDelegate.currentConfiguration.uri.path ==
-                    DesktopRoutePath.calendar().uri.path
-                ? selectedColor
-                : defaultColor,
+            color: defaultColor,
           ),
           iconSize: 24,
           onPressed: () {
-            routerDelegate.go("/calendar");
+            context.go("/calendar");
           }),
       const SizedBox(height: 24),
       IconButton(
           icon: SvgPicture.asset(
             "static/images/icons/todo.svg",
-            color: routerDelegate.currentConfiguration.uri.path ==
-                    DesktopRoutePath.other().uri.path
-                ? selectedColor
-                : defaultColor,
+            color: defaultColor,
           ),
           iconSize: 24,
           onPressed: () {
-            routerDelegate.go("/other");
+            context.go("/other");
           }),
     ]);
   }

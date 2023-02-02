@@ -1,16 +1,14 @@
 import 'dart:math';
 
-import 'package:dream/application/web/route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 
 class AdminHeaderWidget extends StatelessWidget {
   const AdminHeaderWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    var routerDelegate = WebRouterDelegate.of(context);
-
     return Container(
       decoration: BoxDecoration(
           color: Colors.white,
@@ -79,7 +77,7 @@ class AdminHeaderWidget extends StatelessWidget {
                                   overlayColor: MaterialStateProperty.all(
                                       Colors.transparent)),
                               onPressed: () async {
-                                routerDelegate.go("/");
+                                context.go("/");
                               },
                               child: const Text(
                                 "控制台",
