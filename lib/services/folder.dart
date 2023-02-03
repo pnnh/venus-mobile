@@ -41,7 +41,6 @@ class Folders {
 
 Future<PictureFolder?> getFolder(String pk) async {
 
-  final db = await getDataStore();
 
   var sqlText = "select * from folders where pk = ?";
 

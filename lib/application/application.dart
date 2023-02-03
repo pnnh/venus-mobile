@@ -2,6 +2,7 @@ import 'dart:io' show Platform;
 
 import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:dream/application/route.dart';
+import 'package:dream/services/database.dart';
 import 'package:flutter/material.dart';
 
 
@@ -48,6 +49,7 @@ Future<Widget> initDesktopApp() async {
 
 
 Future<Widget> initApp() async {
+  await DBHelper.initDatabase();
   if (Platform.isIOS || Platform.isAndroid) {
     return MainApplication();
   } else {

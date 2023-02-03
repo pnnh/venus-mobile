@@ -10,29 +10,40 @@ import 'package:flutter/services.dart' show rootBundle;
 
 const databaseName = 'venus_database.db';
 
-Database? _globalDatabase;
+class DBHelper {
+  static late Database globalDatabase;
 
-Future<Database> getDataStore() async {
-  if (_globalDatabase != null) return _globalDatabase!;
+  static Future<void> initDatabase() async {
+    Directory appDocDir = await getApplicationDocumentsDirectory();
+    String appDocPath = appDocDir.path;
+    var homeDir = appDocPath;
+    var fullPath = join(homeDir, databaseName);
+    debugPrint("fullPath: $fullPath");
 
-  Directory appDocDir = await getApplicationDocumentsDirectory();
-  String appDocPath = appDocDir.path;
-  var homeDir = appDocPath;
-  var fullPath = join(homeDir, databaseName);
-  debugPrint("fullPath: $fullPath");
+    var initSql = await rootBundle.loadString('static/sql/init.sql');
 
-  var initSql = await rootBundle.loadString('static/sql/init.sql');
+    final db = sqlite3.open(fullPath);
 
-  final db = sqlite3.open(fullPath);
 
-  db.loadSimpleExtension();
+    db.loadSimpleExtension();
 
-  db.execute(initSql);
+    if (initSql.isNotEmpty) {
 
-  _globalDatabase = db;
+      var list = initSql.split(";");
+      for(var sqlText in list) {
+        if (sqlText.trim().isEmpty) {
+          continue;
+        }
+        db.execute(sqlText);
+      }
 
-  return db;
+    }
+
+    globalDatabase = db;
+  }
 }
+
+
 
 // Future<Map<String, dynamic>?> getByPk(String table, String pk) async {
 //   final db = await _getDataStore();

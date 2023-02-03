@@ -42,12 +42,13 @@ class VFoldersWidget extends ConsumerWidget {
                     GestureDetector(
                       onTap: () async {
                         debugPrint("plus");
-                        var folder = await pickFolder();
-                        if (folder != null) {
-                          ref
-                              .read(directoryProvider.notifier)
-                              .update((state) => folder.path);
-                        }
+                        addFolder('abc中国你好hello', '/abc/hello', 'abc.ico');
+                        // var folder = await pickFolder();
+                        // if (folder != null) {
+                        //   ref
+                        //       .read(directoryProvider.notifier)
+                        //       .update((state) => folder.path);
+                        // }
                       },
                       child: SvgPicture.asset(
                         "static/images/icons/plus.svg",

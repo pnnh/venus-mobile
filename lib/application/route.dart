@@ -1,7 +1,7 @@
 import 'dart:io' show Platform;
 import 'package:dream/application/pages/admin/main.dart';
-import 'package:dream/application/pages/home.dart';
-import 'package:dream/application/pages/pictures.dart';
+import 'package:dream/application/pages/home/home.dart';
+import 'package:dream/application/pages/pictures/pictures.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';

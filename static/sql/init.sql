@@ -1,5 +1,5 @@
 --创建文件夹表
-create table main.folders
+create table if not exists main.folders
 (
     pk    TEXT primary key,
     title TEXT,
@@ -9,10 +9,9 @@ create table main.folders
     bookmark text
 );
 
-create virtual table main.searches
+create virtual table if not exists main.searches
 using fts5(
     pk unindexed,
-    type unindexed,
-    header,
+    header unindexed,
     body, tokenize = 'simple'
 );

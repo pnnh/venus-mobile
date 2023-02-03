@@ -13,8 +13,9 @@ import 'package:go_router/go_router.dart';
 import 'package:dream/services/home.dart';
 import 'package:dream/services/models/home.dart';
 
-import '../components/title_bar.dart';
-import '../components/work_group.dart';
+import '../../components/title_bar.dart';
+import '../../components/work_group.dart';
+import 'desktop.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -281,33 +282,5 @@ class _MFoldersPartial extends ConsumerWidget {
             ],
           );
         });
-  }
-}
-
-
-class DesktopHomeBody extends StatelessWidget {
-  const DesktopHomeBody({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-        color: Colors.white,
-        child: Column(
-          children: [
-            const TitleBarWidget(),
-            Expanded(
-                child: GestureDetector(
-                    onTapDown: (detail) {
-                      debugPrint("out click");
-                    },
-                    child: Row(children: [
-                      Container(
-                          width: 56,
-                          padding: const EdgeInsets.only(top: 8),
-                          color: const Color.fromRGBO(242, 246, 255, 100),
-                          child: const WorkGroupWidget()),
-                    ])))
-          ],
-        ));
   }
 }

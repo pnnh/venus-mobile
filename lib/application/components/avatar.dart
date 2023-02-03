@@ -10,7 +10,7 @@ class AvatarWidget extends StatelessWidget {
       child: const SizedBox(
         width: 36,
         height: 36,
-        child: Image(image: AssetImage('images/avatar.jpeg')),
+        child: Image(image: AssetImage('static/images/avatar.jpeg')),
       ),
     );
   }

@@ -6,7 +6,7 @@ import 'package:dream/services/models/picture.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'item.dart';
+import './item.dart';
 
 class EmotionGridWidget extends ConsumerWidget {
   const EmotionGridWidget({Key? key}) : super(key: key);
@@ -45,7 +45,7 @@ class EmotionGridWidget extends ConsumerWidget {
   }
 
   Future<List<PictureModel>> _selectPics(PictureFolder folder) async {
-    if (Platform.isMacOS) {
+    if (Platform.isMacOS && folder.bookmark.isNotEmpty) {
       await macosAccessingSecurityScopedResource(folder.bookmark);
     }
     return selectPics(folder.path);

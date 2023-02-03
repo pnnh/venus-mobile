@@ -56,7 +56,7 @@ SPEC CHECKSUMS:
   FlutterMacOS: 8f6f14fa908a6fb3fba0cd85dbd81ec4b251fb24
   macos_secure_bookmarks: cff041c4b377fa00941bb901aaec4d27fac5edf2
   path_provider_foundation: 37748e03f12783f9de2cb2c4eadfaa25fe6d4852
-  quantum: 1ee33b5c5376bff6506258c533c0539dce00b3d8
+  quantum: f823f206b724894b4d6e9b036988c8e9506dab34
   sqlite3: 88dd99ef4ac3945f5a15facdd752933c52fd93bf
   sqlite3_flutter_libs: 7523e007b12584944a26feaa9975ea741eab136f
 
