@@ -1,22 +1,17 @@
-
-import 'package:dream/application/desktop/pages/emotion/emotion.dart';
-import 'package:dream/application/desktop/pages/other.dart';
-import 'package:dream/application/web/pages/admin/main.dart';
-import 'package:dream/application/web/pages/random.dart';
+import 'dart:io' show Platform;
+import 'package:dream/application/pages/admin/main.dart';
+import 'package:dream/application/pages/home.dart';
+import 'package:dream/application/pages/pictures.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-
-import 'mobile/pages/home.dart';
-import 'mobile/pages/pictures.dart';
-
-
 
 final GoRouter globalRouter = GoRouter(
   routes: <RouteBase>[
     GoRoute(
       path: '/',
       builder: (BuildContext context, GoRouterState state) {
-        return const MHomePage();
+        return const HomePage();
       },
       routes: <RouteBase>[
         GoRoute(
@@ -26,27 +21,15 @@ final GoRouter globalRouter = GoRouter(
           },
         ),
         GoRoute(
-          path: 'random',
-          builder: (BuildContext context, GoRouterState state) {
-            return RandomPage( );
-          },
-        ),
-        GoRoute(
           path: 'admin/main',
           builder: (BuildContext context, GoRouterState state) {
-            return AdminMainPage( );
-          },
-        ),
-        GoRoute(
-          path: 'desktop/other',
-          builder: (BuildContext context, GoRouterState state) {
-            return OtherPage( );
+            return AdminMainPage();
           },
         ),
         GoRoute(
           path: 'desktop/emotion',
           builder: (BuildContext context, GoRouterState state) {
-            return EmotionPage( );
+            return HomePage();
           },
         ),
       ],

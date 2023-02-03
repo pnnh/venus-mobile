@@ -5,18 +5,18 @@ import 'package:dream/application/route.dart';
 import 'package:flutter/material.dart';
 
 
-class MobileApplication extends StatefulWidget {
-  const MobileApplication({Key? key}) : super(key: key);
+class MainApplication extends StatefulWidget {
+  const MainApplication({Key? key}) : super(key: key);
 
   @override
-  State<MobileApplication> createState() => _MobileApplicationState();
+  State<MainApplication> createState() => _MainApplicationState();
 }
 
-class _MobileApplicationState extends State<MobileApplication> {
+class _MainApplicationState extends State<MainApplication> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
-      title: 'Mobile App',
+      title: 'Venus Lighting',
       routerConfig: globalRouter,
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
@@ -43,13 +43,13 @@ Future<Widget> initDesktopApp() async {
     appWindow.alignment = Alignment.center;
     appWindow.show();
   });
-  return const MobileApplication();
+  return const MainApplication();
 }
 
 
 Future<Widget> initApp() async {
   if (Platform.isIOS || Platform.isAndroid) {
-    return MobileApplication();
+    return MainApplication();
   } else {
     return initDesktopApp();
   }

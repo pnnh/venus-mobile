@@ -1,6 +1,7 @@
-import 'package:dream/application/desktop/pages/emotion/partial/filters.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'filters.dart';
 import 'folders.dart';
 
 class ELeftSideWidget extends ConsumerWidget {

@@ -1,7 +1,7 @@
 import 'dart:io' show Platform;
 
 import 'package:bitsdojo_window/bitsdojo_window.dart';
-import 'package:dream/application/desktop/components/window.dart';
+import 'package:dream/application/components/window.dart';
 import 'package:flutter/material.dart';
 
 class TitleBarWidget extends StatefulWidget {
