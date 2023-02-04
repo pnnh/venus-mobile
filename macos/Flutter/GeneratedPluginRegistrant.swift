@@ -8,7 +8,7 @@ import Foundation
 import bitsdojo_window_macos
 import macos_secure_bookmarks
 import path_provider_foundation
-import quantum
+import quantum_sqlite
 import sqlite3_flutter_libs
 
 func RegisterGeneratedPlugins(registry: FlutterPluginRegistry) {

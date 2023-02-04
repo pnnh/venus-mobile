@@ -327,8 +327,8 @@
 				"${BUILT_PRODUCTS_DIR}/bitsdojo_window_macos/bitsdojo_window_macos.framework",
 				"${BUILT_PRODUCTS_DIR}/macos_secure_bookmarks/macos_secure_bookmarks.framework",
 				"${BUILT_PRODUCTS_DIR}/path_provider_foundation/path_provider_foundation.framework",
-				"${PODS_ROOT}/../Flutter/ephemeral/.symlinks/plugins/quantum/macos/Libraries/libsimple.dylib",
-				"${BUILT_PRODUCTS_DIR}/quantum/quantum.framework",
+				"${PODS_ROOT}/../Flutter/ephemeral/.symlinks/plugins/quantum_sqlite/macos/Libraries/libsimple.dylib",
+				"${BUILT_PRODUCTS_DIR}/quantum_sqlite/quantum_sqlite.framework",
 				"${BUILT_PRODUCTS_DIR}/sqlite3/sqlite3.framework",
 				"${BUILT_PRODUCTS_DIR}/sqlite3_flutter_libs/sqlite3_flutter_libs.framework",
 			);
@@ -338,7 +338,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/macos_secure_bookmarks.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/path_provider_foundation.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/libsimple.dylib",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/quantum.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/quantum_sqlite.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/sqlite3.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/sqlite3_flutter_libs.framework",
 			);
