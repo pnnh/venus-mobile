@@ -19,7 +19,7 @@ class VFoldersWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return FutureBuilder<List<PictureFolder>>(
-        future: selectFolders(ref.watch(directoryProvider)),
+        future: queryFolders(ref.watch(directoryProvider)),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (!snapshot.hasData) {
             return Center(

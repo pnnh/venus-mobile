@@ -3,18 +3,15 @@ import 'dart:math';
 
 import 'package:dream/application/pages/partial/page_loading.dart';
 import 'package:dream/services/folder.dart';
+import 'package:dream/services/home.dart';
 import 'package:dream/services/models/folder.dart';
+import 'package:dream/services/models/home.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 
-import 'package:dream/services/home.dart';
-import 'package:dream/services/models/home.dart';
-
-import '../../components/title_bar.dart';
-import '../../components/work_group.dart';
 import 'desktop.dart';
 
 class HomePage extends StatelessWidget {
@@ -22,14 +19,14 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-     return Scaffold(
-       // appBar: AppBar(
-       //   title: const Text("选择文件夹"),
-       // ),
-       body: SafeArea(
-         child: HomeBody(),
-       ),
-     );
+    return Scaffold(
+      // appBar: AppBar(
+      //   title: const Text("选择文件夹"),
+      // ),
+      body: SafeArea(
+        child: HomeBody(),
+      ),
+    );
   }
 }
 
@@ -60,6 +57,7 @@ class _WebHomeBodyState extends State<WebHomeBody> {
   final int indexPageSize = 10;
   int currentPage = 1;
   int totalMainAxisCellCount = 0;
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<HomeResult>(
@@ -130,7 +128,7 @@ class _WebHomeBodyState extends State<WebHomeBody> {
                   style: ButtonStyle(
                       splashFactory: NoSplash.splashFactory,
                       overlayColor:
-                      MaterialStateProperty.all(Colors.transparent)),
+                          MaterialStateProperty.all(Colors.transparent)),
                   child: Text(n.toString(),
                       style: TextStyle(
                           color: currentPage == n
@@ -164,7 +162,6 @@ class _WebHomeBodyState extends State<WebHomeBody> {
   }
 }
 
-
 class MobileHomeBody extends ConsumerWidget {
   const MobileHomeBody({Key? key}) : super(key: key);
 
@@ -176,8 +173,8 @@ class MobileHomeBody extends ConsumerWidget {
         print("screenSize $screenSize");
 
         return ConstrainedBox(
-          constraints: BoxConstraints.tightFor(
-              height: max(512, constraints.maxHeight)),
+          constraints:
+              BoxConstraints.tightFor(height: max(512, constraints.maxHeight)),
           child: Scaffold(
             appBar: AppBar(
               title: const Text("选择文件夹"),
@@ -213,7 +210,6 @@ class MobileHomeBody extends ConsumerWidget {
         );
       },
     );
-
   }
 }
 
@@ -223,7 +219,7 @@ class _MFoldersPartial extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return FutureBuilder<List<PictureFolder>>(
-        future: selectFolders(ref.watch(_directoryProvider)),
+        future: queryFolders(ref.watch(_directoryProvider)),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (!snapshot.hasData) {
             return Center(

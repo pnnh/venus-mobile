@@ -10,6 +10,33 @@ import '../utils/utils.dart';
 import 'database.dart';
 import 'models/folder.dart';
 
+void addFolder(String title, String path, String icon) {
+  try {
+    var sqlTextBegin = "begin;";
+    var sqlTextInsertFolder = '''
+insert into folders(pk, title, path, count, icon, bookmark)
+values(?, ?, ?, 0, ?, '');
+''';
+    var sqlTextInsertSearches = '''
+insert into searches(pk, header, body)
+values(?, ?, ?);
+''';
+    var sqlTextCommit = "commit;";
+    var pk = generateRandomString(8);
+
+    DBHelper.globalDatabase.execute(sqlTextBegin);
+    DBHelper.globalDatabase
+        .execute(sqlTextInsertFolder, [pk, title, path, icon]);
+    DBHelper.globalDatabase
+        .execute(sqlTextInsertSearches, [pk, 'folder', title]);
+    DBHelper.globalDatabase.execute(sqlTextCommit);
+  } catch (e) {
+    debugPrint("insertFolder: $e");
+    var sqlTextRollback = "rollback;";
+    DBHelper.globalDatabase.execute(sqlTextRollback);
+  }
+}
+
 class Folders {
   static Future<PictureFolder?> pickFolder() async {
     String? selectedDirectory = await FilePicker.platform.getDirectoryPath();
@@ -40,8 +67,6 @@ class Folders {
 }
 
 Future<PictureFolder?> getFolder(String pk) async {
-
-
   var sqlText = "select * from folders where pk = ?";
 
   //var resultSet = db.select(sqlText, [pk]);
@@ -57,15 +82,6 @@ Future<PictureFolder?> getFolder(String pk) async {
   //   return PictureFolder.fromJson(data);
   // }
   // return null;
-}
-
-Future<List<PictureFolder>> selectFolders(String path) async {
-  // final List<Map<String, dynamic>> maps = await query('folders');
-  //
-  // return List.generate(maps.length, (i) {
-  //   return PictureFolder.fromJson(maps[i]);
-  // });
-  return List.empty();
 }
 
 Future<void> insertFolder(PictureFolder dog) async {

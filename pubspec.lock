@@ -602,10 +602,10 @@ packages:
   quantum_sqlite:
     dependency: "direct main"
     description:
-      path: "../../quantum/quantum-flutter-sqlite"
-      relative: true
-    source: path
-    version: "0.0.1"
+      name: quantum_sqlite
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.0"
   quiver:
     dependency: transitive
     description:
