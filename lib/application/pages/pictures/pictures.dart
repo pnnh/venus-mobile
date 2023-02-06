@@ -5,6 +5,7 @@ import 'package:venus/services/models/picture.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:path/path.dart' as path;
+import 'package:venus/services/picture.dart';
 
 final StateProvider<String> _gridProvider = StateProvider((_) => "");
 final StateProvider<String> _searchProvider = StateProvider((_) => "");
@@ -109,7 +110,7 @@ class _PicturesGrid extends ConsumerWidget {
       return List.empty();
     }
 
-    var pics = await selectPics(folderModel.path, searchText: searchText);
+    var pics = await PictureBusiness.scanPictures(folderModel.path);
 
     return pics;
   }
@@ -127,7 +128,7 @@ class _PicturesImageCell extends ConsumerWidget {
   );
 
   _PicturesImageCell(this.model, {Key? key}) : super(key: key) {
-    _controller = TextEditingController(text: path.basename(model.file));
+    _controller = TextEditingController(text: path.basename(model.path));
   }
 
   @override
@@ -137,7 +138,7 @@ class _PicturesImageCell extends ConsumerWidget {
       Expanded(
         child: Container(
           child: Image(
-            image: FileImage(File(model.file)),
+            image: FileImage(File(model.path)),
             fit: BoxFit.fill,
           ),
         ),

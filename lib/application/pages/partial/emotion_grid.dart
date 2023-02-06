@@ -5,6 +5,7 @@ import 'package:venus/services/models/folder.dart';
 import 'package:venus/services/models/picture.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:venus/services/picture.dart';
 
 import './item.dart';
 
@@ -46,8 +47,8 @@ class EmotionGridWidget extends ConsumerWidget {
 
   Future<List<PictureModel>> _selectPics(FolderModel folder) async {
     if (Platform.isMacOS && folder.bookmark.isNotEmpty) {
-      await macosAccessingSecurityScopedResource(folder.bookmark);
+      await PictureBusiness.macosAccessingSecurityScopedResource(folder.bookmark);
     }
-    return selectPics(folder.path);
+    return PictureBusiness.scanPictures(folder.path);
   }
 }

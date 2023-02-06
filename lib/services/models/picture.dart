@@ -12,9 +12,9 @@ part 'picture.g.dart';
 @JsonSerializable()
 class PictureModel {
   String pk;
-  String file;
+  String path;
 
-  PictureModel(this.pk, this.file);
+  PictureModel(this.pk, this.path);
 
   factory PictureModel.fromJson(Map<String, dynamic> json) =>
       _$PictureModelFromJson(json);
@@ -33,47 +33,4 @@ class PictureQueryResult {
       _$PictureQueryResultFromJson(json);
 
   Map<String, dynamic> toJson() => _$PictureQueryResultToJson(this);
-}
-
-Future<void> macosAccessingSecurityScopedResource(String bookmark) async {
-  if (bookmark.isEmpty)
-    return;
-  final secureBookmarks = SecureBookmarks();
-  final resolvedFile = await secureBookmarks.resolveBookmark(bookmark);
-
-  await secureBookmarks.startAccessingSecurityScopedResource(resolvedFile);
-}
-
-Future<List<PictureModel>> selectPics(String folderPath,
-    {String searchText = ""}) async {
-  debugPrint("selectPics: $folderPath");
-  if (folderPath.trim().isEmpty) {
-    return List.empty();
-  }
-
-  var realPath = folderPath;
-  final dir = Directory(realPath);
-  var isDirExist = await dir.exists();
-  if (!isDirExist) {
-    return List.empty();
-  }
-  var fileList = dir.list(recursive: false, followLinks: false);
-  List<PictureModel> files = <PictureModel>[];
-  await for (FileSystemEntity entity in fileList) {
-    FileSystemEntityType type = await FileSystemEntity.type(entity.path);
-    if (type == FileSystemEntityType.file) {
-      var isPic = isImage(entity.path);
-      debugPrint("isPic: ${entity.path} $isPic");
-      if (!isPic) continue;
-      if (searchText.isNotEmpty) {
-        var baseName = basename(entity.path).toLowerCase();
-        if (!baseName.contains(searchText.toLowerCase())) continue;
-      }
-      var picPk = generateRandomString(16);
-      var pic = PictureModel(picPk, entity.path);
-      files.add(pic);
-    }
-  }
-
-  return files;
 }

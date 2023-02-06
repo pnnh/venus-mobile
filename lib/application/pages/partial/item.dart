@@ -17,7 +17,7 @@ class ImageCellWidget extends ConsumerWidget {
     borderRadius: BorderRadius.circular(4),
   );
   ImageCellWidget(this.model, {Key? key}) : super(key: key) {
-    _controller = TextEditingController(text: path.basename(model.file));
+    _controller = TextEditingController(text: path.basename(model.path));
   }
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -32,7 +32,7 @@ class ImageCellWidget extends ConsumerWidget {
           // ),
           //padding: EdgeInsets.only(left: 24, right: 24),
           child: Image(
-            image: FileImage(File(model.file)),
+            image: FileImage(File(model.path)),
             fit: BoxFit.fill,
           ),
         ),

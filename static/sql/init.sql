@@ -10,10 +10,12 @@ create table if not exists main.folders
 --创建图片表
 create table if not exists main.pictures
 (
-    pk    TEXT primary key,
-    title TEXT,
-    path  TEXT
+    pk   TEXT primary key,
+    path TEXT
 );
+
+create unique index if not exists pictures_path_index
+    on pictures (path);
 
 --创建索引表
 create virtual table if not exists main.searches
