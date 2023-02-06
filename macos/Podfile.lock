@@ -53,7 +53,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   bitsdojo_window_macos: 44e3b8fe3dd463820e0321f6256c5b1c16bb6a00
-  FlutterMacOS: 8f6f14fa908a6fb3fba0cd85dbd81ec4b251fb24
+  FlutterMacOS: ae6af50a8ea7d6103d888583d46bd8328a7e9811
   macos_secure_bookmarks: cff041c4b377fa00941bb901aaec4d27fac5edf2
   path_provider_foundation: 37748e03f12783f9de2cb2c4eadfaa25fe6d4852
   quantum_sqlite: b084f66044d15a5a4c220310c9c45d0fe7c317fc

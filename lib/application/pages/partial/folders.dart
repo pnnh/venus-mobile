@@ -1,16 +1,15 @@
 import 'dart:io';
 
-import 'package:path/path.dart';
-import 'package:venus/application/providers/emotion.dart';
-import 'package:venus/services/folder.dart';
-import 'package:venus/services/models/folder.dart';
-import 'package:venus/utils/utils.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:macos_secure_bookmarks/macos_secure_bookmarks.dart';
-import 'package:path/path.dart' as path;
+import 'package:path/path.dart';
+import 'package:venus/application/providers/emotion.dart';
+import 'package:venus/services/folder.dart';
+import 'package:venus/services/models/folder.dart';
+import 'package:venus/utils/utils.dart';
 
 final StateProvider<String> directoryProvider = StateProvider((_) => "");
 
@@ -22,12 +21,15 @@ class VFoldersWidget extends ConsumerWidget {
     return FutureBuilder<List<FolderModel>>(
         future: queryFolders(ref.watch(directoryProvider)),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
-          if (!snapshot.hasData) {
+          List<FolderModel> dataList = List.empty();
+          if (snapshot.error != null) {
             return Center(
               child: Text("加载Folders出错"),
             );
           }
-          var dataList = snapshot.data as List<FolderModel>;
+          if (snapshot.hasData) {
+            dataList = snapshot.data as List<FolderModel>;
+          }
           return Column(
             children: [
               Container(
@@ -65,54 +67,60 @@ class VFoldersWidget extends ConsumerWidget {
               ),
               Column(
                   children: List.generate(
-                dataList.length,
-                (index) {
-                  var item = dataList[index];
-                  debugPrint("item: ${item.path}");
+                    dataList.length,
+                        (index) {
+                      var item = dataList[index];
+                      debugPrint("item: ${item.path}");
 
-                  return MouseRegion(
-                      child: Container(
-                    height: 32,
-                    padding: EdgeInsets.only(left: 16, right: 16),
-                    color: ref.watch(folderProvider).pk == item.pk
-                        ? Color(0xffD3D3D3)
-                        : Colors.transparent,
-                    child: GestureDetector(
-                        behavior: HitTestBehavior.translucent,
-                        onTap: () {
-                          debugPrint("点击动图");
-                          ref
-                              .read(folderProvider.notifier)
-                              .update((state) => item);
-                        },
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Row(
-                              children: [
-                                Container(
-                                  padding: EdgeInsets.only(
-                                      left: 0, right: 8, top: 0, bottom: 0),
-                                  child: SvgPicture.asset(
-                                    "static/images/icons/folder.svg",
-                                    color: Color(0xff444444),
-                                    height: 16,
-                                    width: 16,
-                                    //    fit: BoxFit.fitWidth
-                                  ),
-                                ),
-                                Text(
-                                  basename(item.path),
-                                  style: TextStyle(fontSize: 12),
-                                ),
-                              ],
-                            ),
-                            Text(item.count.toString())
-                          ],
-                        )),
-                  ));
-                },
-              ))
+                      return MouseRegion(
+                          child: Container(
+                            height: 32,
+                            padding: EdgeInsets.only(left: 16, right: 16),
+                            color: ref
+                                .watch(folderProvider)
+                                .pk == item.pk
+                                ? Color(0xffD3D3D3)
+                                : Colors.transparent,
+                            child: GestureDetector(
+                                behavior: HitTestBehavior.translucent,
+                                onTap: () {
+                                  debugPrint("点击动图");
+                                  ref
+                                      .read(folderProvider.notifier)
+                                      .update((state) => item);
+                                },
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment
+                                      .spaceBetween,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Container(
+                                          padding: EdgeInsets.only(
+                                              left: 0,
+                                              right: 8,
+                                              top: 0,
+                                              bottom: 0),
+                                          child: SvgPicture.asset(
+                                            "static/images/icons/folder.svg",
+                                            color: Color(0xff444444),
+                                            height: 16,
+                                            width: 16,
+                                            //    fit: BoxFit.fitWidth
+                                          ),
+                                        ),
+                                        Text(
+                                          basename(item.path),
+                                          style: TextStyle(fontSize: 12),
+                                        ),
+                                      ],
+                                    ),
+                                    Text(item.count.toString())
+                                  ],
+                                )),
+                          ));
+                    },
+                  ))
             ],
           );
         });
