@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:math';
 
+import 'package:path/path.dart';
 import 'package:venus/application/pages/partial/page_loading.dart';
 import 'package:venus/services/folder.dart';
 import 'package:venus/services/home.dart';
@@ -257,7 +258,7 @@ class _MFoldersPartial extends ConsumerWidget {
                                   padding: EdgeInsets.only(
                                       left: 0, right: 8, top: 0, bottom: 0),
                                   child: SvgPicture.asset(
-                                    item.icon,
+                                    "assets/icons/folder.svg",
                                     color: Color(0xff444444),
                                     height: 16,
                                     width: 16,
@@ -265,7 +266,7 @@ class _MFoldersPartial extends ConsumerWidget {
                                   ),
                                 ),
                                 Text(
-                                  item.title,
+                                  basename(item.path),
                                   style: TextStyle(fontSize: 12),
                                 ),
                               ],

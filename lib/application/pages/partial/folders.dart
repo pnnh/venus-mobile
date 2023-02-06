@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:path/path.dart';
 import 'package:venus/application/providers/emotion.dart';
 import 'package:venus/services/folder.dart';
 import 'package:venus/services/models/folder.dart';
@@ -42,13 +43,11 @@ class VFoldersWidget extends ConsumerWidget {
                     GestureDetector(
                       onTap: () async {
                         debugPrint("plus");
-                        addFolder('abc中国你好hello', '/abc/hello', 'abc.ico');
-                        // var folder = await pickFolder();
-                        // if (folder != null) {
-                        //   ref
-                        //       .read(directoryProvider.notifier)
-                        //       .update((state) => folder.path);
-                        // }
+                        var folder = await pickFolder();
+                        if (folder != null) {
+                          ref.read(directoryProvider.notifier)
+                              .update((state) => folder.path);
+                        }
                       },
                       child: SvgPicture.asset(
                         "static/images/icons/plus.svg",
@@ -95,7 +94,7 @@ class VFoldersWidget extends ConsumerWidget {
                                   padding: EdgeInsets.only(
                                       left: 0, right: 8, top: 0, bottom: 0),
                                   child: SvgPicture.asset(
-                                    item.icon,
+                                    "static/images/icons/folder.svg",
                                     color: Color(0xff444444),
                                     height: 16,
                                     width: 16,
@@ -103,7 +102,7 @@ class VFoldersWidget extends ConsumerWidget {
                                   ),
                                 ),
                                 Text(
-                                  item.title,
+                                  basename(item.path),
                                   style: TextStyle(fontSize: 12),
                                 ),
                               ],
@@ -130,9 +129,6 @@ class VFoldersWidget extends ConsumerWidget {
 
       var pk = generateRandomString(16);
       var newFolder = FolderModel(pk,
-          title: path.basename(selectedDirectory),
-          count: 182,
-          icon: "static/images/icons/folder.svg",
           path: selectedDirectory,
           bookmark: bookmark);
       await insertFolder(newFolder);

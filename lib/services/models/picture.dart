@@ -36,6 +36,8 @@ class PictureQueryResult {
 }
 
 Future<void> macosAccessingSecurityScopedResource(String bookmark) async {
+  if (bookmark.isEmpty)
+    return;
   final secureBookmarks = SecureBookmarks();
   final resolvedFile = await secureBookmarks.resolveBookmark(bookmark);
 
@@ -51,6 +53,10 @@ Future<List<PictureModel>> selectPics(String folderPath,
 
   var realPath = folderPath;
   final dir = Directory(realPath);
+  var isDirExist = await dir.exists();
+  if (!isDirExist) {
+    return List.empty();
+  }
   var fileList = dir.list(recursive: false, followLinks: false);
   List<PictureModel> files = <PictureModel>[];
   await for (FileSystemEntity entity in fileList) {

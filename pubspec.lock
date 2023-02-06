@@ -687,10 +687,10 @@ packages:
     dependency: "direct main"
     description:
       name: quantum_sqlite
-      sha256: a62a1ee7045287f670bd74ab9b61eadf85bb81947b0c1ec4b79dcb50a01eb460
+      sha256: "8253d08f4c58e996f2f11480960aa7f995415f2bc94ef02666e24bb644e6ce57"
       url: "https://pub.dev"
     source: hosted
-    version: "0.1.0"
+    version: "0.1.1"
   quiver:
     dependency: transitive
     description:

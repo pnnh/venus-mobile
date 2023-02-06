@@ -2,10 +2,8 @@
 create table if not exists main.folders
 (
     pk    TEXT primary key,
-    title TEXT,
     path  TEXT,
     count integer,
-    icon  text,
     bookmark text
 );
 

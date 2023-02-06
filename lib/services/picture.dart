@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:venus/utils/utils.dart';
 
 import 'database.dart';
 import 'models/picture.dart';
@@ -18,4 +19,31 @@ Future<List<PictureModel>> queryPictures(String a) async {
   });
 
   return List.empty();
+}
+
+void insertPicture(String title, String path, String icon) {
+  try {
+    var sqlTextBegin = "begin;";
+    var sqlTextInsertFolder = '''
+insert into folders(pk, title, path, count, icon, bookmark)
+values(?, ?, ?, 0, ?, '');
+''';
+    var sqlTextInsertSearches = '''
+insert into searches(pk, header, body)
+values(?, ?, ?);
+''';
+    var sqlTextCommit = "commit;";
+    var pk = generateRandomString(8);
+
+    DBHelper.globalDatabase.execute(sqlTextBegin);
+    DBHelper.globalDatabase
+        .execute(sqlTextInsertFolder, [pk, title, path, icon]);
+    DBHelper.globalDatabase
+        .execute(sqlTextInsertSearches, [pk, 'folder', title]);
+    DBHelper.globalDatabase.execute(sqlTextCommit);
+  } catch (e) {
+    debugPrint("insertFolder: $e");
+    var sqlTextRollback = "rollback;";
+    DBHelper.globalDatabase.execute(sqlTextRollback);
+  }
 }
