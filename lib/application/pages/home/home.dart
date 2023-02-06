@@ -1,16 +1,17 @@
 import 'dart:io';
 import 'dart:math';
 
-import 'package:dream/application/pages/partial/page_loading.dart';
-import 'package:dream/services/folder.dart';
-import 'package:dream/services/home.dart';
-import 'package:dream/services/models/folder.dart';
-import 'package:dream/services/models/home.dart';
+import 'package:venus/application/pages/partial/page_loading.dart';
+import 'package:venus/services/folder.dart';
+import 'package:venus/services/home.dart';
+import 'package:venus/services/models/folder.dart';
+import 'package:venus/services/models/home.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:venus/services/picture.dart';
 
 import 'desktop.dart';
 
@@ -218,7 +219,7 @@ class _MFoldersPartial extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return FutureBuilder<List<PictureFolder>>(
+    return FutureBuilder<List<FolderModel>>(
         future: queryFolders(ref.watch(_directoryProvider)),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (!snapshot.hasData) {
@@ -226,7 +227,7 @@ class _MFoldersPartial extends ConsumerWidget {
               child: Text("加载Folders出错"),
             );
           }
-          var dataList = snapshot.data as List<PictureFolder>;
+          var dataList = snapshot.data as List<FolderModel>;
           return Column(
             children: [
               Column(

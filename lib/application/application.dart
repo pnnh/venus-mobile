@@ -1,8 +1,8 @@
 import 'dart:io' show Platform;
 
 import 'package:bitsdojo_window/bitsdojo_window.dart';
-import 'package:dream/application/route.dart';
-import 'package:dream/services/database.dart';
+import 'package:venus/application/route.dart';
+import 'package:venus/services/database.dart';
 import 'package:flutter/material.dart';
 
 

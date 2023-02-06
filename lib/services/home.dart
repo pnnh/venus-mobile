@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:dream/config.dart';
+import 'package:venus/config.dart';
 import 'package:http/http.dart' as http;
 
 import 'models/home.dart';

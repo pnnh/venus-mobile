@@ -1,8 +1,8 @@
 import 'dart:io';
 
-import 'package:dream/application/providers/emotion.dart';
-import 'package:dream/services/models/folder.dart';
-import 'package:dream/services/models/picture.dart';
+import 'package:venus/application/providers/emotion.dart';
+import 'package:venus/services/models/folder.dart';
+import 'package:venus/services/models/picture.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -44,7 +44,7 @@ class EmotionGridWidget extends ConsumerWidget {
     );
   }
 
-  Future<List<PictureModel>> _selectPics(PictureFolder folder) async {
+  Future<List<PictureModel>> _selectPics(FolderModel folder) async {
     if (Platform.isMacOS && folder.bookmark.isNotEmpty) {
       await macosAccessingSecurityScopedResource(folder.bookmark);
     }

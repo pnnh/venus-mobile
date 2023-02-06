@@ -1,8 +1,6 @@
-import 'package:dream/services/models/folder.dart';
-import 'package:dream/services/models/picture.dart';
+import 'package:venus/services/models/folder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-
-final StateProvider<PictureFolder> folderProvider = StateProvider((_) => PictureFolder("", path: ""));
+final StateProvider<FolderModel> folderProvider = StateProvider((_) => FolderModel("", path: ""));
 
 final StateProvider<String> gridProvider = StateProvider((_) => "");

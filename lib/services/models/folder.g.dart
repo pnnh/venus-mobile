@@ -6,8 +6,7 @@ part of 'folder.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-PictureFolder _$PictureFolderFromJson(Map<String, dynamic> json) =>
-    PictureFolder(
+FolderModel _$FolderModelFromJson(Map<String, dynamic> json) => FolderModel(
       json['pk'] as String,
       title: json['title'] as String? ?? "",
       count: json['count'] as int? ?? 0,
@@ -16,7 +15,7 @@ PictureFolder _$PictureFolderFromJson(Map<String, dynamic> json) =>
       bookmark: json['bookmark'] as String? ?? "",
     );
 
-Map<String, dynamic> _$PictureFolderToJson(PictureFolder instance) =>
+Map<String, dynamic> _$FolderModelToJson(FolderModel instance) =>
     <String, dynamic>{
       'pk': instance.pk,
       'title': instance.title,

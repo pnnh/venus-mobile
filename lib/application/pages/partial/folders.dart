@@ -1,9 +1,9 @@
 import 'dart:io';
 
-import 'package:dream/application/providers/emotion.dart';
-import 'package:dream/services/folder.dart';
-import 'package:dream/services/models/folder.dart';
-import 'package:dream/utils/utils.dart';
+import 'package:venus/application/providers/emotion.dart';
+import 'package:venus/services/folder.dart';
+import 'package:venus/services/models/folder.dart';
+import 'package:venus/utils/utils.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -18,7 +18,7 @@ class VFoldersWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return FutureBuilder<List<PictureFolder>>(
+    return FutureBuilder<List<FolderModel>>(
         future: queryFolders(ref.watch(directoryProvider)),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (!snapshot.hasData) {
@@ -26,7 +26,7 @@ class VFoldersWidget extends ConsumerWidget {
               child: Text("加载Folders出错"),
             );
           }
-          var dataList = snapshot.data as List<PictureFolder>;
+          var dataList = snapshot.data as List<FolderModel>;
           return Column(
             children: [
               Container(
@@ -119,7 +119,7 @@ class VFoldersWidget extends ConsumerWidget {
         });
   }
 
-  Future<PictureFolder?> pickFolder() async {
+  Future<FolderModel?> pickFolder() async {
     String? selectedDirectory = await FilePicker.platform.getDirectoryPath();
 
     if (selectedDirectory != null) {
@@ -129,7 +129,7 @@ class VFoldersWidget extends ConsumerWidget {
       final bookmark = await secureBookmarks.bookmark(File(selectedDirectory));
 
       var pk = generateRandomString(16);
-      var newFolder = PictureFolder(pk,
+      var newFolder = FolderModel(pk,
           title: path.basename(selectedDirectory),
           count: 182,
           icon: "static/images/icons/folder.svg",

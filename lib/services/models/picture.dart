@@ -1,7 +1,7 @@
 import 'dart:io';
 
-import 'package:dream/utils/image.dart';
-import 'package:dream/utils/utils.dart';
+import 'package:venus/utils/image.dart';
+import 'package:venus/utils/utils.dart';
 import 'package:flutter/foundation.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:macos_secure_bookmarks/macos_secure_bookmarks.dart';

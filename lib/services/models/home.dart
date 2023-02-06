@@ -1,4 +1,4 @@
-import 'package:dream/services/models/picture.dart';
+import 'package:venus/services/models/picture.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'home.g.dart';

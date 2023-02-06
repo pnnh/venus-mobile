@@ -56,7 +56,7 @@
 /* Begin PBXFileReference section */
 		333000ED22D3DE5D00554162 /* Warnings.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Warnings.xcconfig; sourceTree = "<group>"; };
 		335BBD1A22A9A15E00E9071D /* GeneratedPluginRegistrant.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GeneratedPluginRegistrant.swift; sourceTree = "<group>"; };
-		33CC10ED2044A3C60003C045 /* dream.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = dream.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		33CC10ED2044A3C60003C045 /* venus.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = venus.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		33CC10F02044A3C60003C045 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		33CC10F22044A3C60003C045 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = Runner/Assets.xcassets; sourceTree = "<group>"; };
 		33CC10F52044A3C60003C045 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
@@ -115,7 +115,7 @@
 		33CC10EE2044A3C60003C045 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				33CC10ED2044A3C60003C045 /* dream.app */,
+				33CC10ED2044A3C60003C045 /* venus.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -196,7 +196,7 @@
 			);
 			name = Runner;
 			productName = Runner;
-			productReference = 33CC10ED2044A3C60003C045 /* dream.app */;
+			productReference = 33CC10ED2044A3C60003C045 /* venus.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -327,7 +327,6 @@
 				"${BUILT_PRODUCTS_DIR}/bitsdojo_window_macos/bitsdojo_window_macos.framework",
 				"${BUILT_PRODUCTS_DIR}/macos_secure_bookmarks/macos_secure_bookmarks.framework",
 				"${BUILT_PRODUCTS_DIR}/path_provider_foundation/path_provider_foundation.framework",
-				"${PODS_ROOT}/../Flutter/ephemeral/.symlinks/plugins/quantum_sqlite/macos/Libraries/libsimple.dylib",
 				"${BUILT_PRODUCTS_DIR}/quantum_sqlite/quantum_sqlite.framework",
 				"${BUILT_PRODUCTS_DIR}/sqlite3/sqlite3.framework",
 				"${BUILT_PRODUCTS_DIR}/sqlite3_flutter_libs/sqlite3_flutter_libs.framework",
@@ -337,7 +336,6 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/bitsdojo_window_macos.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/macos_secure_bookmarks.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/path_provider_foundation.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/libsimple.dylib",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/quantum_sqlite.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/sqlite3.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/sqlite3_flutter_libs.framework",

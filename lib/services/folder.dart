@@ -38,7 +38,7 @@ values(?, ?, ?);
 }
 
 class Folders {
-  static Future<PictureFolder?> pickFolder() async {
+  static Future<FolderModel?> pickFolder() async {
     String? selectedDirectory = await FilePicker.platform.getDirectoryPath();
 
     if (selectedDirectory != null) {
@@ -51,7 +51,7 @@ class Folders {
       }
 
       var pk = generateRandomString(16);
-      var newFolder = PictureFolder(pk,
+      var newFolder = FolderModel(pk,
           title: basename(selectedDirectory),
           count: 182,
           icon: "static/images/icons/folder.svg",
@@ -66,7 +66,7 @@ class Folders {
   }
 }
 
-Future<PictureFolder?> getFolder(String pk) async {
+Future<FolderModel?> getFolder(String pk) async {
   var sqlText = "select * from folders where pk = ?";
 
   //var resultSet = db.select(sqlText, [pk]);
@@ -84,9 +84,23 @@ Future<PictureFolder?> getFolder(String pk) async {
   // return null;
 }
 
-Future<void> insertFolder(PictureFolder dog) async {
+Future<void> insertFolder(FolderModel dog) async {
   // await insert(
   //   'folders',
   //   dog.toJson(),
   // );
+}
+
+Future<List<FolderModel>> queryFolders(String a) async {
+  // var sqlText = '''select pk, header, body,
+  //   simple_highlight(searches, 3, '[', ']') as highlight
+  //   from searches where body match jieba_query('国');''';
+  //
+  // var list = DBHelper.globalDatabase.select(sqlText);
+  //
+  // debugPrint("list ${list.length}");
+  //
+  //
+
+  return List.empty();
 }

@@ -1,4 +1,4 @@
-import 'package:dream/application/application.dart' as application;
+import 'package:venus/application/application.dart' as application;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:url_strategy/url_strategy.dart';

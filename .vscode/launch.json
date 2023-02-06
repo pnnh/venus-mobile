@@ -10,7 +10,7 @@
             "cwd": "${workspaceRoot}/plugins/pillow/web" 
         },
         {
-            "name": "dream-venus-chrome",
+            "name": "venus-chrome",
             "request": "launch",
             "type": "dart",
             "flutterMode": "debug",
@@ -25,7 +25,7 @@
             ]
         }, 
         {
-            "name": "dream-venus-macos",
+            "name": "venus-macos",
             "request": "launch",
             "type": "dart",
             "flutterMode": "debug",

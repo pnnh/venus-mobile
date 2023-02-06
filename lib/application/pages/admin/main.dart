@@ -1,5 +1,5 @@
-import 'package:dream/services/home.dart';
-import 'package:dream/services/models/home.dart';
+import 'package:venus/services/home.dart';
+import 'package:venus/services/models/home.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:split_view/split_view.dart';

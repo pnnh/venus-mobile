@@ -1,6 +1,6 @@
 import 'dart:math';
 
-import 'package:dream/config.dart';
+import 'package:venus/config.dart';
 import 'package:flutter/material.dart';
 
 String buildFileUrl(String fileUrl) {
