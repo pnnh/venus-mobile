@@ -12,14 +12,19 @@ part 'picture.g.dart';
 @JsonSerializable()
 class PictureModel {
   String pk;
+  String basename;
   String path;
 
-  PictureModel(this.pk, this.path);
+  PictureModel(this.pk, this.basename, this.path);
 
   factory PictureModel.fromJson(Map<String, dynamic> json) =>
       _$PictureModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$PictureModelToJson(this);
+
+  get fullPath {
+    return join(path, basename);
+  }
 }
 
 @JsonSerializable()

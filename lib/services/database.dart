@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:path/path.dart';
@@ -10,9 +11,20 @@ import 'package:sqlite3/sqlite3.dart';
 const databaseName = 'venus_database.db';
 
 class DBHelper {
-  static late Database globalDatabase;
+  Database? _database;
 
-  static Future<void> initDatabase() async {
+  static final DBHelper instance = DBHelper._internal();
+
+  factory DBHelper() {
+    return instance;
+  }
+
+  DBHelper._internal();
+
+  Future<Database> _openDatabase() async {
+    if (_database != null) {
+      return _database!;
+    }
     Directory appDocDir = await getApplicationDocumentsDirectory();
     String appDocPath = appDocDir.path;
     var homeDir = appDocPath;
@@ -35,34 +47,40 @@ class DBHelper {
       }
     }
 
-    globalDatabase = db;
+    _database = db;
+    return _database!;
+  }
+
+  Future<void> executeAsync(String sql, [List<Object?> parameters = const []]) async {
+    var database = await _openDatabase();
+    database.execute(sql, parameters);
+  }
+
+  Future<ResultSet> selectAsync(String sql, [List<Object?> parameters = const []]) async {
+    var database = await _openDatabase();
+    return database.select(sql, parameters);
+  }
+
+  Future<void> transactionAsync(bool Function(Database) action) async {
+    Database? database;
+    var sqlTextRollback = "rollback;";
+    try {
+      database = await _openDatabase();
+      var sqlTextBegin = "begin;";
+
+      var sqlTextCommit = "commit;";
+
+      database.execute(sqlTextBegin);
+
+      var ok = action(database);
+      if (ok) {
+        database.execute(sqlTextCommit);
+      } else {
+        database.execute(sqlTextRollback);
+      }
+    } catch (e) {
+      debugPrint("transactionAsync error: $e");
+      database?.execute(sqlTextRollback);
+    }
   }
 }
-
-// Future<Map<String, dynamic>?> getByPk(String table, String pk) async {
-//   final db = await _getDataStore();
-//
-//   final List<Map<String, dynamic>> maps =
-//       await db.select(table, [pk]);
-//   if (maps.isNotEmpty) {
-//     return maps.first;
-//   }
-//   return null;
-// }
-
-// Future<List<Map<String, dynamic>>> query(String table) async {
-//   final db = await _getDataStore();
-//
-//   final List<Map<String, dynamic>> maps = await db.query(table);
-//
-//   return maps;
-// }
-//
-// Future<void> insert(String table, Map<String, Object?> values) async {
-//   final db = await _getDataStore();
-//
-//   await db.insert(
-//     table,
-//     values,
-//   );
-// }

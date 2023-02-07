@@ -8,12 +8,14 @@ part of 'picture.dart';
 
 PictureModel _$PictureModelFromJson(Map<String, dynamic> json) => PictureModel(
       json['pk'] as String,
+      json['basename'] as String,
       json['path'] as String,
     );
 
 Map<String, dynamic> _$PictureModelToJson(PictureModel instance) =>
     <String, dynamic>{
       'pk': instance.pk,
+      'basename': instance.basename,
       'path': instance.path,
     };
 

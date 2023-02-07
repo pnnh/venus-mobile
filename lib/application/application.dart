@@ -49,9 +49,8 @@ Future<Widget> initDesktopApp() async {
 
 
 Future<Widget> initApp() async {
-  await DBHelper.initDatabase();
   if (Platform.isIOS || Platform.isAndroid) {
-    return MainApplication();
+    return const MainApplication();
   } else {
     return initDesktopApp();
   }

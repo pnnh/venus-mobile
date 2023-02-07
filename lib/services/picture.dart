@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
+import 'package:venus/services/models/folder.dart';
 import 'package:venus/utils/utils.dart';
 
 import 'package:venus/utils/image.dart';
@@ -9,111 +10,103 @@ import 'package:macos_secure_bookmarks/macos_secure_bookmarks.dart';
 import 'package:path/path.dart';
 
 import 'database.dart';
+import 'folder.dart';
 import 'models/picture.dart';
 import 'models/search.dart';
 
-class PictureStore {
-
-  static Future<List<PictureModel>> searchPictures(String a) async {
-    var sqlText = '''select pk, header, body, 
+Future<List<PictureModel>> searchPictures(String a) async {
+  var sqlText = '''select pk, header, body, 
     simple_highlight(searches, 3, '[', ']') as highlight 
     from searches where body match jieba_query('国');''';
 
-    var list = DBHelper.globalDatabase.select(sqlText);
+  var list = await DBHelper.instance.selectAsync(sqlText);
 
-    debugPrint("list ${list.length}");
+  debugPrint("list ${list.length}");
 
-    var searchList = List.generate(list.length, (i) {
-      return SearchModel.fromJson(list[i]);
-    });
+  var searchList = List.generate(list.length, (i) {
+    return SearchModel.fromJson(list[i]);
+  });
 
-    return List.empty();
-  }
+  return List.empty();
+}
 
-  static void insertPictureIfNotExists(PictureModel model) {
-    var sqlText = '''select pk from pictures where path = ?;''';
+Future<List<PictureModel>> selectPicturesByFolder(String folderPk) async {
+  if (folderPk.isEmpty) return List.empty();
+  var sqlText = '''select p.*, f.path path from pictures p 
+    left join folders f on p.folder = f.pk where folder = ?
+    order by basename limit 100;''';
 
-    var list = DBHelper.globalDatabase.select(sqlText, [model.path]);
+  var list = await DBHelper.instance.selectAsync(sqlText, [folderPk]);
 
+  var pictureList = List.generate(list.length, (i) {
+    return PictureModel.fromJson(list[i]);
+  });
+
+  return pictureList;
+}
+
+void insertPictureIfNotExists(PictureModel model, String folderPk) async {
+  await DBHelper.instance.transactionAsync((database) {
+    var sqlText = '''select pk from pictures where folder = ? and basename = ?;''';
+    var list = database.select(sqlText, [folderPk, model.basename]);
     if (list.isNotEmpty) {
-      return;
+      return false;
     }
 
-    try {
-      var sqlTextBegin = "begin;";
-      var sqlTextInsertFolder = '''
-insert into pictures(pk, path)
-values(?, ?);
+    // 插入图片数据
+    var sqlTextInsertPicture = '''
+insert into pictures(pk, basename, folder)
+values(?, ?, ?);
 ''';
-      var sqlTextInsertSearches = '''
+    database.execute(sqlTextInsertPicture, [model.pk, model.basename, folderPk]);
+
+    // 插入索引数据
+    var sqlTextInsertSearches = '''
 insert into searches(pk, header, body)
 values(?, ?, ?);
 ''';
-      var sqlTextCommit = "commit;";
+    database.execute(
+        sqlTextInsertSearches, [model.pk, 'picture', model.basename]);
 
-      DBHelper.globalDatabase.execute(sqlTextBegin);
-      DBHelper.globalDatabase
-          .execute(sqlTextInsertFolder, [model.pk, model.path]);
-      DBHelper.globalDatabase
-          .execute(sqlTextInsertSearches, [model.pk, 'picture', basename(model.path)]);
-      DBHelper.globalDatabase.execute(sqlTextCommit);
-    } catch (e) {
-      var sqlTextRollback = "rollback;";
-      DBHelper.globalDatabase.execute(sqlTextRollback);
-    }
-  }
-
-
-  static Future<bool> checkFileExists(String path) async {
-    var sqlText = '''select pk from pictures where path = ?;''';
-
-    var list = DBHelper.globalDatabase.select(sqlText, [path]);
-
-    return list.isNotEmpty;
-  }
+    return true;
+  });
 }
 
-class PictureBusiness {
-  static Future<void> macosAccessingSecurityScopedResource(String bookmark) async {
-    if (bookmark.isEmpty)
-      return;
-    final secureBookmarks = SecureBookmarks();
-    final resolvedFile = await secureBookmarks.resolveBookmark(bookmark);
+Future<void> macosAccessingSecurityScopedResource(String bookmark) async {
+  if (bookmark.isEmpty) return;
+  final secureBookmarks = SecureBookmarks();
+  final resolvedFile = await secureBookmarks.resolveBookmark(bookmark);
 
-    await secureBookmarks.startAccessingSecurityScopedResource(resolvedFile);
-  }
-
-  static Future<List<PictureModel>> scanPictures(String folderPath) async {
-    debugPrint("selectPics: $folderPath");
-    if (folderPath.trim().isEmpty) {
-      return List.empty();
-    }
-
-    var realPath = folderPath;
-    final dir = Directory(realPath);
-    var isDirExist = await dir.exists();
-    if (!isDirExist) {
-      return List.empty();
-    }
-    var fileList = dir.list(recursive: false, followLinks: false);
-    List<PictureModel> files = <PictureModel>[];
-    await for (FileSystemEntity entity in fileList) {
-      FileSystemEntityType type = await FileSystemEntity.type(entity.path);
-      if (type == FileSystemEntityType.file) {
-        var isPic = isImage(entity.path);
-        debugPrint("isPic: ${entity.path} $isPic");
-        if (!isPic) continue;
-        var picPk = generateRandomString(16);
-        var model = PictureModel(picPk, entity.path);
-        files.add(model);
-        // 保存到数据库
-        PictureStore.insertPictureIfNotExists(model);
-      }
-    }
-
-    return files;
-  }
+  await secureBookmarks.startAccessingSecurityScopedResource(resolvedFile);
 }
 
+Future<void> scanPicturesWorker(FolderModel folderModel) async {
+  if (folderModel.path.trim().isEmpty || folderModel.pk.trim().isEmpty) {
+    return;
+  }
+  if (Platform.isMacOS && folderModel.bookmark.isNotEmpty) {
+    await macosAccessingSecurityScopedResource(folderModel.bookmark);
+  }
+  var realPath = folderModel.path;
+  final dir = Directory(realPath);
+  var isDirExist = await dir.exists();
+  if (!isDirExist) {
+    return;
+  }
+  var fileListStream = dir.list(recursive: false, followLinks: false);
+  var filesCount = 0;
+  await for (FileSystemEntity entity in fileListStream) {
+    FileSystemEntityType type = await FileSystemEntity.type(entity.path);
+    if (type == FileSystemEntityType.file) {
+      var isPic = isImage(entity.path);
 
-
+      if (!isPic) continue;
+      filesCount += 1;
+      var picPk = generateRandomString(16);
+      var model = PictureModel(picPk, basename(entity.path), dirname(entity.path));
+      // 保存到数据库
+      insertPictureIfNotExists(model, folderModel.pk);
+    }
+  }
+  await updateFilesCount(folderModel.pk, filesCount);
+}

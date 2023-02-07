@@ -77,7 +77,7 @@ class _PicturesGrid extends ConsumerWidget {
         padding: EdgeInsets.all(16),
         height: 4000,
         child: FutureBuilder<List<PictureModel>>(
-          future: _selectPics(this.folderPk, this.searchText),
+          future: _selectPics2(this.folderPk, this.searchText),
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             //debugPrint("pics: ${snapshot.data}");
             if (!snapshot.hasData) {
@@ -103,14 +103,14 @@ class _PicturesGrid extends ConsumerWidget {
     );
   }
 
-  Future<List<PictureModel>> _selectPics(String folderPk, searchText) async {
+  Future<List<PictureModel>> _selectPics2(String folderPk, searchText) async {
     debugPrint("_searchPics $folderPk $searchText");
     var folderModel = await getFolder(folderPk);
     if (folderModel == null) {
       return List.empty();
     }
 
-    var pics = await PictureBusiness.scanPictures(folderModel.path);
+    var pics = await selectPicturesByFolder(folderModel.pk);
 
     return pics;
   }

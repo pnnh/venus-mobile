@@ -55,31 +55,30 @@ Future<FolderModel?> getFolder(String pk) async {
   // return null;
 }
 
+Future<void> updateFilesCount(String pk, int count) async {
+  var sqlText = '''update folders set count = ? where pk = ?;''';
+
+  await DBHelper().executeAsync(sqlText, [count, pk]);
+}
+
 Future<void> insertFolder(FolderModel model) async {
-  try {
-    var sqlTextBegin = "begin;";
-    var sqlTextInsertFolder = '''
+  await DBHelper.instance.transactionAsync((database)
+  {
+      var sqlTextInsertFolder = '''
 insert into folders(pk, path, bookmark)
 values(?, ?, ?);
 ''';
-    var sqlTextCommit = "commit;";
-    var pk = generateRandomString(8);
+      var pk = generateRandomString(8);
 
-    DBHelper.globalDatabase.execute(sqlTextBegin);
-    DBHelper.globalDatabase
-        .execute(sqlTextInsertFolder, [pk, model.path, model.bookmark]);
-    DBHelper.globalDatabase.execute(sqlTextCommit);
-  } catch (e) {
-    debugPrint("insertFolder: $e");
-    var sqlTextRollback = "rollback;";
-    DBHelper.globalDatabase.execute(sqlTextRollback);
-  }
+      database.execute(sqlTextInsertFolder, [pk, model.path, model.bookmark]);
+      return true;
+  });
 }
 
 Future<List<FolderModel>> queryFolders(String a) async {
   var sqlText = '''select * from folders;''';
 
-  var list = DBHelper.globalDatabase.select(sqlText);
+  var list = await DBHelper().selectAsync(sqlText);
 
   debugPrint("list ${list.length}");
 
