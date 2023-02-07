@@ -110,7 +110,7 @@ class _PicturesGrid extends ConsumerWidget {
       return List.empty();
     }
 
-    var pics = await selectPicturesByFolder(folderModel.pk);
+    var pics = await selectPicturesByFolder(folderModel);
 
     return pics;
   }

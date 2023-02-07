@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:venus/services/models/folder.dart';
+import 'package:venus/utils/macos.dart';
 import 'package:venus/utils/utils.dart';
 
 import 'package:venus/utils/image.dart';
@@ -30,13 +31,16 @@ Future<List<PictureModel>> searchPictures(String a) async {
   return List.empty();
 }
 
-Future<List<PictureModel>> selectPicturesByFolder(String folderPk) async {
-  if (folderPk.isEmpty) return List.empty();
+Future<List<PictureModel>> selectPicturesByFolder(FolderModel folder) async {
+  if (folder.pk.isEmpty) return List.empty();
+
+  MacOSHelper.macosAccessingSecurityScopedResource(folder.bookmark);
+
   var sqlText = '''select p.*, f.path path from pictures p 
     left join folders f on p.folder = f.pk where folder = ?
     order by basename limit 100;''';
 
-  var list = await DBHelper.instance.selectAsync(sqlText, [folderPk]);
+  var list = await DBHelper.instance.selectAsync(sqlText, [folder.pk]);
 
   var pictureList = List.generate(list.length, (i) {
     return PictureModel.fromJson(list[i]);
@@ -72,21 +76,12 @@ values(?, ?, ?);
   });
 }
 
-Future<void> macosAccessingSecurityScopedResource(String bookmark) async {
-  if (bookmark.isEmpty) return;
-  final secureBookmarks = SecureBookmarks();
-  final resolvedFile = await secureBookmarks.resolveBookmark(bookmark);
-
-  await secureBookmarks.startAccessingSecurityScopedResource(resolvedFile);
-}
 
 Future<void> scanPicturesWorker(FolderModel folderModel) async {
   if (folderModel.path.trim().isEmpty || folderModel.pk.trim().isEmpty) {
     return;
   }
-  if (Platform.isMacOS && folderModel.bookmark.isNotEmpty) {
-    await macosAccessingSecurityScopedResource(folderModel.bookmark);
-  }
+  MacOSHelper.macosAccessingSecurityScopedResource(folderModel.bookmark);
   var realPath = folderModel.path;
   final dir = Directory(realPath);
   var isDirExist = await dir.exists();

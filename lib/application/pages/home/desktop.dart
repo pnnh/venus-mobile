@@ -141,8 +141,9 @@ class _VFoldersWidget extends ConsumerWidget {
                                 behavior: HitTestBehavior.translucent,
                                 onTap: () async {
                                   debugPrint("点击动图");
+
                                   // 执行扫描文件夹的任务
-                                  await scanPicturesWorker(item);
+                                  //await scanPicturesWorker(item);
                                   ref.read(folderProvider.notifier)
                                       .update((state) => item);
                                 },
@@ -211,7 +212,7 @@ class _EmotionGridWidget extends ConsumerWidget {
         padding: EdgeInsets.all(16),
         height: 4000,
         child: FutureBuilder<List<PictureModel>>(
-          future: selectPicturesByFolder(ref.watch(folderProvider).pk),
+          future: selectPicturesByFolder(ref.watch(folderProvider)),
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             //debugPrint("pics: ${snapshot.data}");
             if (!snapshot.hasData) {

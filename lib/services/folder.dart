@@ -65,8 +65,8 @@ Future<void> insertFolder(FolderModel model) async {
   await DBHelper.instance.transactionAsync((database)
   {
       var sqlTextInsertFolder = '''
-insert into folders(pk, path, bookmark)
-values(?, ?, ?);
+insert into folders(pk, path, bookmark, count)
+values(?, ?, ?, 0);
 ''';
       var pk = generateRandomString(8);
 
