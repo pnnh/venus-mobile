@@ -15,13 +15,7 @@ final GoRouter globalRouter = GoRouter(
         GoRoute(
           path: 'pictures/:pk',
           builder: (BuildContext context, GoRouterState state) {
-            return MPicturesPage(folderPk: state.params['pk'] as String);
-          },
-        ),
-        GoRoute(
-          path: 'desktop/emotion',
-          builder: (BuildContext context, GoRouterState state) {
-            return const HomePage();
+            return PicturesPage(folderPk: state.params['pk'] as String);
           },
         ),
       ],

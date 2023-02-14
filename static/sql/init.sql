@@ -3,8 +3,7 @@ create table if not exists main.folders
 (
     pk    TEXT primary key,
     path     TEXT    not null,
-    count    integer not null,
-    bookmark text
+    count    integer not null
 );
 
 --创建图片表

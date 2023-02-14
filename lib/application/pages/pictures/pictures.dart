@@ -10,56 +10,65 @@ import 'package:venus/services/picture.dart';
 final StateProvider<String> _gridProvider = StateProvider((_) => "");
 final StateProvider<String> _searchProvider = StateProvider((_) => "");
 
-class MPicturesPage extends ConsumerStatefulWidget {
+
+class PicturesPage extends StatelessWidget {
   final String folderPk;
+  const PicturesPage({Key? key, required this.folderPk}) : super(key: key);
 
-  const MPicturesPage({Key? key, required this.folderPk}) : super(key: key);
-
-  @override
-  ConsumerState<MPicturesPage> createState() => _MPicturesPageState();
-}
-
-class _MPicturesPageState extends ConsumerState<MPicturesPage> {
   @override
   Widget build(BuildContext context) {
-    debugPrint("current directory: ${Directory.current}");
     return Scaffold(
       appBar: AppBar(
         title: const Text("图片列表"),
       ),
-      backgroundColor: Colors.white,
       body: SafeArea(
-        child: Container(
-            color: Colors.white,
-            child: Column(
-              children: [
-                Container(
-                  padding: EdgeInsets.all(16),
-                  child: TextField(
-                    onChanged: (newText) {
-                      debugPrint("newText $newText");
-                      ref
-                          .watch(_searchProvider.notifier)
-                          .update((state) => newText);
-                    },
-                    enableInteractiveSelection: true,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      hintText: "搜索图片",
-                      contentPadding:
-                          EdgeInsets.only(bottom: 4, top: 4, left: 8, right: 8),
-                    ),
-                  ),
+        child: _PicturesBody(folderPk: folderPk),
+      ),
+    );
+  }
+}
+
+class _PicturesBody extends ConsumerStatefulWidget {
+  final String folderPk;
+  const _PicturesBody({Key? key, required this.folderPk}) : super(key: key);
+
+  @override
+  ConsumerState<_PicturesBody> createState() => _MPicturesPageState();
+}
+
+class _MPicturesPageState extends ConsumerState<_PicturesBody> {
+  @override
+  Widget build(BuildContext context) {
+    debugPrint("current directory: ${Directory.current}");
+    return Container(
+        color: Colors.white,
+        child: Column(
+          children: [
+            Container(
+              padding: EdgeInsets.all(16),
+              child: TextField(
+                onChanged: (newText) {
+                  debugPrint("newText $newText");
+                  ref
+                      .watch(_searchProvider.notifier)
+                      .update((state) => newText);
+                },
+                enableInteractiveSelection: true,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  hintText: "搜索图片",
+                  contentPadding:
+                  EdgeInsets.only(bottom: 4, top: 4, left: 8, right: 8),
                 ),
-                Expanded(
-                    child: _PicturesGrid(
+              ),
+            ),
+            Expanded(
+                child: _PicturesGrid(
                   folderPk: widget.folderPk,
                   searchText: ref.watch(_searchProvider),
                 ))
-              ],
-            )),
-      ),
-    );
+          ],
+        ));
   }
 }
 

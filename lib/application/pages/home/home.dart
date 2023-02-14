@@ -122,7 +122,7 @@ class _MFoldersPartial extends ConsumerWidget {
                                   padding: EdgeInsets.only(
                                       left: 0, right: 8, top: 0, bottom: 0),
                                   child: SvgPicture.asset(
-                                    "assets/icons/folder.svg",
+                                    "static/images/icons/folder.svg",
                                     color: Color(0xff444444),
                                     height: 16,
                                     width: 16,

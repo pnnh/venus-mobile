@@ -31,19 +31,15 @@ class Folders {
 Future<FolderModel?> getFolder(String pk) async {
   var sqlText = "select * from folders where pk = ?";
 
-  //var resultSet = db.select(sqlText, [pk]);
+  var list = await DBHelper().selectAsync(sqlText, [pk]);
 
-  // if (resultSet.rows.isNotEmpty) {
-  //   return resultSet.rows.first;
-  // }
+  debugPrint("list ${list.length}");
+
+  if (list.isNotEmpty) {
+    return FolderModel.fromJson(list[0]);
+  }
+
   return null;
-
-  // final Map<String, dynamic>? data = await getByPk('folders', pk);
-  //
-  // if (data != null) {
-  //   return PictureFolder.fromJson(data);
-  // }
-  // return null;
 }
 
 Future<void> updateFilesCount(String pk, int count) async {
@@ -56,8 +52,8 @@ Future<void> insertFolder(FolderModel model) async {
   await DBHelper.instance.transactionAsync((database)
   {
       var sqlTextInsertFolder = '''
-insert into folders(pk, path, bookmark, count)
-values(?, ?, ?, 0);
+insert into folders(pk, path, count)
+values(?, ?, 0);
 ''';
       var pk = generateRandomString(8);
 
