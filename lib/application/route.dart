@@ -1,8 +1,6 @@
 import 'dart:io' show Platform;
-import 'package:venus/application/pages/admin/main.dart';
 import 'package:venus/application/pages/home/home.dart';
 import 'package:venus/application/pages/pictures/pictures.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -21,15 +19,9 @@ final GoRouter globalRouter = GoRouter(
           },
         ),
         GoRoute(
-          path: 'admin/main',
-          builder: (BuildContext context, GoRouterState state) {
-            return AdminMainPage();
-          },
-        ),
-        GoRoute(
           path: 'desktop/emotion',
           builder: (BuildContext context, GoRouterState state) {
-            return HomePage();
+            return const HomePage();
           },
         ),
       ],

@@ -1,10 +1,7 @@
-import 'dart:io';
-
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:macos_secure_bookmarks/macos_secure_bookmarks.dart';
 import 'package:path/path.dart';
 import 'package:venus/application/providers/emotion.dart';
 import 'package:venus/services/folder.dart';
@@ -132,13 +129,9 @@ class VFoldersWidget extends ConsumerWidget {
     if (selectedDirectory != null) {
       debugPrint("selectedDirectory: $selectedDirectory");
 
-      final secureBookmarks = SecureBookmarks();
-      final bookmark = await secureBookmarks.bookmark(File(selectedDirectory));
-
       var pk = generateRandomString(16);
       var newFolder = FolderModel(pk,
-          path: selectedDirectory,
-          bookmark: bookmark);
+          path: selectedDirectory);
       await insertFolder(newFolder);
 
       return newFolder;

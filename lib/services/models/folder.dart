@@ -6,13 +6,11 @@ part 'folder.g.dart';
 class FolderModel {
   String pk;
   String path;
-  String bookmark = "";
   int count = 0;
 
   FolderModel(this.pk,
       {
-      required this.path,
-      this.bookmark = ""});
+      required this.path});
 
   factory FolderModel.fromJson(Map<String, dynamic> json) =>
       _$FolderModelFromJson(json);

@@ -1,20 +1,12 @@
-import 'dart:io';
 import 'dart:math';
-
 import 'package:path/path.dart';
-import 'package:venus/application/pages/partial/page_loading.dart';
 import 'package:venus/services/folder.dart';
-import 'package:venus/services/home.dart';
 import 'package:venus/services/models/folder.dart';
-import 'package:venus/services/models/home.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
-import 'package:venus/services/picture.dart';
-
-import 'desktop.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -22,9 +14,9 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   title: const Text("选择文件夹"),
-      // ),
+      appBar: AppBar(
+        title: const Text("选择文件夹"),
+      ),
       body: SafeArea(
         child: HomeBody(),
       ),
@@ -37,132 +29,11 @@ class HomeBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (Platform.isAndroid || Platform.isIOS) {
-      return const MobileHomeBody();
-    } else if (kIsWeb) {
-      return const WebHomeBody();
-    }
-    return const DesktopHomeBody();
+    return const MobileHomeBody();
   }
 }
 
 final StateProvider<String> _directoryProvider = StateProvider((_) => "");
-
-class WebHomeBody extends StatefulWidget {
-  const WebHomeBody({Key? key}) : super(key: key);
-
-  @override
-  State<WebHomeBody> createState() => _WebHomeBodyState();
-}
-
-class _WebHomeBodyState extends State<WebHomeBody> {
-  final int indexPageSize = 10;
-  int currentPage = 1;
-  int totalMainAxisCellCount = 0;
-
-  @override
-  Widget build(BuildContext context) {
-    return FutureBuilder<HomeResult>(
-      future: queryHome(currentPage),
-      builder: (BuildContext context, AsyncSnapshot<HomeResult> snapshot) {
-        if (snapshot.hasError) {
-          return Text("加载出错2 ${snapshot.error}");
-        }
-
-        if (!snapshot.hasData) {
-          return PageLoadingWidget();
-        }
-        //debugPrint("result ${result.data}");
-        final int dataCount = snapshot.data?.count ?? 0;
-
-        var repositories = snapshot.data?.list ?? [];
-
-        return SingleChildScrollView(
-            physics: const ClampingScrollPhysics(),
-            child: Container(child: Text("尚未实现")));
-      },
-    );
-  }
-
-  Widget renderPagination(BuildContext context, int articlesCount) {
-    int maxPage = articlesCount ~/ indexPageSize;
-    if (articlesCount % indexPageSize != 0) {
-      maxPage += 1;
-    }
-    if (currentPage > maxPage) {
-      currentPage = maxPage;
-    }
-    int startPage = currentPage - 5;
-    int endPage = currentPage + 5;
-
-    if (startPage < 1) {
-      startPage = 1;
-    }
-    if (endPage > maxPage) {
-      endPage = maxPage;
-    }
-    int prevPage = currentPage - 1;
-    int nextPage = currentPage + 1;
-    debugPrint("pages $currentPage $prevPage $nextPage $maxPage");
-
-    return Row(
-      children: [
-        if (prevPage >= 1)
-          Container(
-            height: 32,
-            width: 32,
-            child: TextButton(
-                child: Text("«"),
-                onPressed: () {
-                  debugPrint("prevPage $prevPage");
-                  //callback(prevPage);
-                  setState(() {
-                    currentPage = prevPage;
-                  });
-                }),
-          ),
-        for (int n = startPage; n <= endPage; ++n)
-          Container(
-              height: 32,
-              width: 32,
-              color: currentPage == n ? Color(0xff55A0E6) : Colors.transparent,
-              child: TextButton(
-                  style: ButtonStyle(
-                      splashFactory: NoSplash.splashFactory,
-                      overlayColor:
-                          MaterialStateProperty.all(Colors.transparent)),
-                  child: Text(n.toString(),
-                      style: TextStyle(
-                          color: currentPage == n
-                              ? const Color(0xffffffff)
-                              : Colors.black)),
-                  onPressed: () {
-                    debugPrint("currentPage $n");
-                    //callback(n);
-                    setState(() {
-                      currentPage = n;
-                    });
-                  })),
-        if (nextPage <= maxPage)
-          Container(
-            height: 32,
-            width: 32,
-            child: TextButton(
-                child: Text(
-                  "»",
-                ),
-                onPressed: () {
-                  debugPrint("nextPage $nextPage");
-                  //callback(nextPage);
-                  setState(() {
-                    currentPage = nextPage;
-                  });
-                }),
-          ),
-      ],
-    );
-  }
-}
 
 class MobileHomeBody extends ConsumerWidget {
   const MobileHomeBody({Key? key}) : super(key: key);
@@ -177,38 +48,31 @@ class MobileHomeBody extends ConsumerWidget {
         return ConstrainedBox(
           constraints:
               BoxConstraints.tightFor(height: max(512, constraints.maxHeight)),
-          child: Scaffold(
-            appBar: AppBar(
-              title: const Text("选择文件夹"),
-            ),
-            body: SafeArea(
-                child: Container(
-                    color: Colors.white,
-                    child: Column(
-                      children: [
-                        const _MFoldersPartial(),
-                        Center(
-                          child: TextButton(
-                            onPressed: () async {
-                              debugPrint("点击按钮");
+          child: Container(
+              color: Colors.white,
+              child: Column(
+                children: [
+                  const _MFoldersPartial(),
+                  Center(
+                    child: TextButton(
+                      onPressed: () async {
+                        debugPrint("点击按钮");
 
-                              var folder = await Folders.pickFolder();
-                              if (folder != null) {
-                                debugPrint("选择了文件夹: ${folder.path}");
-                                ref
-                                    .read(_directoryProvider.notifier)
-                                    .update((state) => folder.path);
-                              } else {
-                                debugPrint("什么都没有选择");
-                              }
-                            },
-                            child: Text("点击"),
-                          ),
-                        )
-                      ],
-                    ))),
-            backgroundColor: const Color(0xffFAFAFA),
-          ), // your column
+                        var folder = await Folders.pickFolder();
+                        if (folder != null) {
+                          debugPrint("选择了文件夹: ${folder.path}");
+                          ref
+                              .read(_directoryProvider.notifier)
+                              .update((state) => folder.path);
+                        } else {
+                          debugPrint("什么都没有选择");
+                        }
+                      },
+                      child: Text("点击"),
+                    ),
+                  )
+                ],
+              )), // your column
         );
       },
     );

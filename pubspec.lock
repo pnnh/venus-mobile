@@ -33,46 +33,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.10.0"
-  bitsdojo_window:
-    dependency: "direct main"
-    description:
-      name: bitsdojo_window
-      sha256: "1118bc1cd16e6f358431ca4473af57cc1b287d2ceab46dfab6d59a9463160622"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.1.5"
-  bitsdojo_window_linux:
-    dependency: transitive
-    description:
-      name: bitsdojo_window_linux
-      sha256: d3804a30315fcbb43b28acc86d1180ce0be22c0c738ad2da9e5ade4d8dbd9655
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.1.3"
-  bitsdojo_window_macos:
-    dependency: transitive
-    description:
-      name: bitsdojo_window_macos
-      sha256: d2a9886c74516c5b84c1dd65ab8ee5d1c52055b265ebf0e7d664dee28366b521
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.1.3"
-  bitsdojo_window_platform_interface:
-    dependency: transitive
-    description:
-      name: bitsdojo_window_platform_interface
-      sha256: "65daa015a0c6dba749bdd35a0f092e7a8ba8b0766aa0480eb3ef808086f6e27c"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.1.2"
-  bitsdojo_window_windows:
-    dependency: transitive
-    description:
-      name: bitsdojo_window_windows
-      sha256: "8766a40aac84a6d7bdcaa716b24997e028fc9a9a1800495fc031721fd5a22ed0"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.1.5"
   build:
     dependency: transitive
     description:
@@ -217,14 +177,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.2.4"
-  dio:
-    dependency: transitive
-    description:
-      name: dio
-      sha256: "7d328c4d898a61efc3cd93655a0955858e29a0aa647f0f9e02d59b3bb275e2e8"
-      url: "https://pub.dev"
-    source: hosted
-    version: "4.0.6"
   ffi:
     dependency: transitive
     description:
@@ -467,22 +419,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.1.1"
-  logging_appenders:
-    dependency: transitive
-    description:
-      name: logging_appenders
-      sha256: "2cbb63639a05865adae1564caf12cdca262295e2b5a960fdd379d7782cd6d3c7"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.0+2"
-  macos_secure_bookmarks:
-    dependency: "direct main"
-    description:
-      name: macos_secure_bookmarks
-      sha256: c3163875f8fd530a1654a7cf8aa426e6e208d28bf05724a1d4960e4b7d2ca1c6
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.2.1"
   markdown:
     dependency: "direct main"
     description:

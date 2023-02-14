@@ -1,10 +1,7 @@
-import 'dart:io';
 import 'dart:io' show Platform;
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:macos_secure_bookmarks/macos_secure_bookmarks.dart';
-import 'package:path/path.dart';
 
 import '../utils/utils.dart';
 import 'database.dart';
@@ -19,15 +16,9 @@ class Folders {
       debugPrint("selectedDirectory: $selectedDirectory");
 
       String bookmark = "";
-      if (Platform.isMacOS) {
-        final secureBookmarks = SecureBookmarks();
-        bookmark = await secureBookmarks.bookmark(File(selectedDirectory));
-      }
-
       var pk = generateRandomString(16);
       var newFolder = FolderModel(pk,
-          path: selectedDirectory,
-          bookmark: bookmark);
+          path: selectedDirectory);
       await insertFolder(newFolder);
 
       return newFolder;
@@ -70,7 +61,7 @@ values(?, ?, ?, 0);
 ''';
       var pk = generateRandomString(8);
 
-      database.execute(sqlTextInsertFolder, [pk, model.path, model.bookmark]);
+      database.execute(sqlTextInsertFolder, [pk, model.path]);
       return true;
   });
 }

@@ -9,13 +9,11 @@ part of 'folder.dart';
 FolderModel _$FolderModelFromJson(Map<String, dynamic> json) => FolderModel(
       json['pk'] as String,
       path: json['path'] as String,
-      bookmark: json['bookmark'] as String? ?? "",
     )..count = json['count'] as int;
 
 Map<String, dynamic> _$FolderModelToJson(FolderModel instance) =>
     <String, dynamic>{
       'pk': instance.pk,
       'path': instance.path,
-      'bookmark': instance.bookmark,
       'count': instance.count,
     };

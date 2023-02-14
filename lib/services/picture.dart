@@ -1,13 +1,10 @@
 import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
 import 'package:venus/services/models/folder.dart';
-import 'package:venus/utils/macos.dart';
 import 'package:venus/utils/utils.dart';
 
 import 'package:venus/utils/image.dart';
 import 'package:flutter/foundation.dart';
-import 'package:macos_secure_bookmarks/macos_secure_bookmarks.dart';
 import 'package:path/path.dart';
 
 import 'database.dart';
@@ -33,8 +30,6 @@ Future<List<PictureModel>> searchPictures(String a) async {
 
 Future<List<PictureModel>> selectPicturesByFolder(FolderModel folder) async {
   if (folder.pk.isEmpty) return List.empty();
-
-  MacOSHelper.macosAccessingSecurityScopedResource(folder.bookmark);
 
   var sqlText = '''select p.*, f.path path from pictures p 
     left join folders f on p.folder = f.pk where folder = ?
@@ -81,7 +76,6 @@ Future<void> scanPicturesWorker(FolderModel folderModel) async {
   if (folderModel.path.trim().isEmpty || folderModel.pk.trim().isEmpty) {
     return;
   }
-  MacOSHelper.macosAccessingSecurityScopedResource(folderModel.bookmark);
   var realPath = folderModel.path;
   final dir = Directory(realPath);
   var isDirExist = await dir.exists();

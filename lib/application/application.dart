@@ -1,8 +1,6 @@
 import 'dart:io' show Platform;
 
-import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:venus/application/route.dart';
-import 'package:venus/services/database.dart';
 import 'package:flutter/material.dart';
 
 
@@ -36,22 +34,7 @@ class _MainApplicationState extends State<MainApplication> {
 }
 
 
-Future<Widget> initDesktopApp() async {
-  doWhenWindowReady(() {
-    appWindow.minSize = const Size(640, 480);
-    appWindow.size = const Size(1280, 900);
-    appWindow.maxSize = const Size(2560, 1920);
-    appWindow.alignment = Alignment.center;
-    appWindow.show();
-  });
-  return const MainApplication();
-}
-
 
 Future<Widget> initApp() async {
-  if (Platform.isIOS || Platform.isAndroid) {
     return const MainApplication();
-  } else {
-    return initDesktopApp();
-  }
 }
