@@ -1,4 +1,3 @@
-import 'dart:io' show Platform;
 
 import 'package:venus/application/route.dart';
 import 'package:flutter/material.dart';

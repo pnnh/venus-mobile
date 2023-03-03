@@ -20,7 +20,7 @@ class VFoldersWidget extends ConsumerWidget {
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           List<FolderModel> dataList = List.empty();
           if (snapshot.error != null) {
-            return Center(
+            return const Center(
               child: Text("加载Folders出错"),
             );
           }
@@ -31,11 +31,11 @@ class VFoldersWidget extends ConsumerWidget {
             children: [
               Container(
                 height: 32,
-                padding: EdgeInsets.only(left: 16, right: 16),
+                padding: const EdgeInsets.only(left: 16, right: 16),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
+                    const Text(
                       "位置",
                       style: TextStyle(fontSize: 14),
                     ),
@@ -50,7 +50,7 @@ class VFoldersWidget extends ConsumerWidget {
                       },
                       child: SvgPicture.asset(
                         "static/images/icons/plus.svg",
-                        color: Color(0xffCDCDCD),
+                        color: const Color(0xffCDCDCD),
                         height: 16,
                         width: 16,
                         //    fit: BoxFit.fitWidth
@@ -59,7 +59,7 @@ class VFoldersWidget extends ConsumerWidget {
                   ],
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 8,
               ),
               Column(
@@ -72,11 +72,11 @@ class VFoldersWidget extends ConsumerWidget {
                       return MouseRegion(
                           child: Container(
                             height: 32,
-                            padding: EdgeInsets.only(left: 16, right: 16),
+                            padding: const EdgeInsets.only(left: 16, right: 16),
                             color: ref
                                 .watch(folderProvider)
                                 .pk == item.pk
-                                ? Color(0xffD3D3D3)
+                                ? const Color(0xffD3D3D3)
                                 : Colors.transparent,
                             child: GestureDetector(
                                 behavior: HitTestBehavior.translucent,
@@ -93,14 +93,14 @@ class VFoldersWidget extends ConsumerWidget {
                                     Row(
                                       children: [
                                         Container(
-                                          padding: EdgeInsets.only(
+                                          padding: const EdgeInsets.only(
                                               left: 0,
                                               right: 8,
                                               top: 0,
                                               bottom: 0),
                                           child: SvgPicture.asset(
                                             "static/images/icons/folder.svg",
-                                            color: Color(0xff444444),
+                                            color: const Color(0xff444444),
                                             height: 16,
                                             width: 16,
                                             //    fit: BoxFit.fitWidth
@@ -108,7 +108,7 @@ class VFoldersWidget extends ConsumerWidget {
                                         ),
                                         Text(
                                           basename(item.path),
-                                          style: TextStyle(fontSize: 12),
+                                          style: const TextStyle(fontSize: 12),
                                         ),
                                       ],
                                     ),

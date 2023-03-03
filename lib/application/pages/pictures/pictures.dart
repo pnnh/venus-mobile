@@ -45,7 +45,7 @@ class _MPicturesPageState extends ConsumerState<_PicturesBody> {
         child: Column(
           children: [
             Container(
-              padding: EdgeInsets.all(16),
+              padding: const EdgeInsets.all(16),
               child: TextField(
                 onChanged: (newText) {
                   debugPrint("newText $newText");
@@ -54,7 +54,7 @@ class _MPicturesPageState extends ConsumerState<_PicturesBody> {
                       .update((state) => newText);
                 },
                 enableInteractiveSelection: true,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   border: OutlineInputBorder(),
                   hintText: "搜索图片",
                   contentPadding:
@@ -73,37 +73,37 @@ class _MPicturesPageState extends ConsumerState<_PicturesBody> {
 }
 
 class _PicturesGrid extends ConsumerWidget {
-  String folderPk = "";
-  String searchText;
+  final String folderPk;
+  final String searchText;
 
-  _PicturesGrid({Key? key, required this.folderPk, this.searchText = ""})
+  const _PicturesGrid({Key? key, required this.folderPk, this.searchText = ""})
       : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return SingleChildScrollView(
       child: Container(
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         height: 4000,
         child: FutureBuilder<List<PictureModel>>(
-          future: _selectPics2(this.folderPk, this.searchText),
+          future: _selectPics2(folderPk, searchText),
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             //debugPrint("pics: ${snapshot.data}");
             if (!snapshot.hasData) {
-              return Center(
+              return const Center(
                 child: Text("Empty"),
               );
             }
             var picList = snapshot.data as List<PictureModel>;
             return GridView(
               padding: EdgeInsets.zero,
-              gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+              gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
                 maxCrossAxisExtent: 120.0,
                 childAspectRatio: 1.0,
                 mainAxisSpacing: 16,
                 crossAxisSpacing: 16,
               ),
-              physics: NeverScrollableScrollPhysics(),
+              physics: const NeverScrollableScrollPhysics(),
               children: picList.map((e) => _PicturesImageCell(e)).toList(),
             );
           },
@@ -145,11 +145,9 @@ class _PicturesImageCell extends ConsumerWidget {
     var pk = ref.watch(_gridProvider);
     return Column(children: [
       Expanded(
-        child: Container(
-          child: Image(
-            image: FileImage(File(model.path)),
-            fit: BoxFit.fill,
-          ),
+        child: Image(
+          image: FileImage(File(model.path)),
+          fit: BoxFit.fill,
         ),
       ),
       if (pk == model.pk)
@@ -163,8 +161,8 @@ class _PicturesImageCell extends ConsumerWidget {
             decoration: InputDecoration(
               hoverColor: Colors.white,
               hintText: '搜索图片',
-              hintStyle: TextStyle(fontSize: 14),
-              contentPadding: EdgeInsets.all(0),
+              hintStyle: const TextStyle(fontSize: 14),
+              contentPadding: const EdgeInsets.all(0),
               filled: true,
               fillColor: Colors.white,
               enabledBorder: searchBorder,

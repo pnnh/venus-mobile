@@ -9,17 +9,17 @@ class NotFoundWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Column(children: [
-        Text("资源不存在"),
+        const Text("资源不存在"),
         TextButton(
-          child: const Text(
-            "返回首页",
-          ),
           style: ButtonStyle(
               splashFactory: NoSplash.splashFactory,
               overlayColor: MaterialStateProperty.all(Colors.transparent)),
           onPressed: () async {
             context.go("/");
           },
+          child: const Text(
+            "返回首页",
+          ),
         )
       ]),
     );

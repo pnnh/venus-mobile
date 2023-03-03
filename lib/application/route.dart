@@ -1,4 +1,3 @@
-import 'dart:io' show Platform;
 import 'package:venus/application/pages/home/home.dart';
 import 'package:venus/application/pages/pictures/pictures.dart';
 import 'package:flutter/material.dart';

@@ -1,13 +1,19 @@
 {
     "window.autoDetectColorScheme": true,
     "workbench.colorTheme": "Default Light+",
-    "workbench.iconTheme": "vscode-icons",
+    "workbench.iconTheme": "material-icon-theme",
     "workbench.preferredDarkColorTheme": "Default Light+",
     "cmake.configureOnOpen": false,
     "cmake.sourceDirectory": "${workspaceFolder}",
     "cmake.autoSelectActiveFolder": false,
     "cmake.configureOnEdit": false,
     "cSpell.words": [
-        "esbuild"
-    ]
+        "autofocus",
+        "esbuild",
+        "RGBO",
+        "riverpod"
+    ],
+    "editor.codeActionsOnSave": {
+        "source.fixAll": true
+    },
 }

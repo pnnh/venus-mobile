@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'package:flutter/cupertino.dart';
 import 'package:venus/services/models/folder.dart';
 import 'package:venus/utils/utils.dart';
 
@@ -10,7 +9,6 @@ import 'package:path/path.dart';
 import 'database.dart';
 import 'folder.dart';
 import 'models/picture.dart';
-import 'models/search.dart';
 
 Future<List<PictureModel>> searchPictures(String a) async {
   var sqlText = '''select pk, header, body, 
@@ -21,9 +19,9 @@ Future<List<PictureModel>> searchPictures(String a) async {
 
   debugPrint("list ${list.length}");
 
-  var searchList = List.generate(list.length, (i) {
-    return SearchModel.fromJson(list[i]);
-  });
+  // var searchList = List.generate(list.length, (i) {
+  //   return SearchModel.fromJson(list[i]);
+  // });
 
   return List.empty();
 }
@@ -46,7 +44,8 @@ Future<List<PictureModel>> selectPicturesByFolder(FolderModel folder) async {
 
 void insertPictureIfNotExists(PictureModel model, String folderPk) async {
   await DBHelper.instance.transactionAsync((database) {
-    var sqlText = '''select pk from pictures where folder = ? and basename = ?;''';
+    var sqlText =
+        '''select pk from pictures where folder = ? and basename = ?;''';
     var list = database.select(sqlText, [folderPk, model.basename]);
     if (list.isNotEmpty) {
       return false;
@@ -57,20 +56,20 @@ void insertPictureIfNotExists(PictureModel model, String folderPk) async {
 insert into pictures(pk, basename, folder)
 values(?, ?, ?);
 ''';
-    database.execute(sqlTextInsertPicture, [model.pk, model.basename, folderPk]);
+    database
+        .execute(sqlTextInsertPicture, [model.pk, model.basename, folderPk]);
 
     // 插入索引数据
     var sqlTextInsertSearches = '''
 insert into searches(pk, header, body)
 values(?, ?, ?);
 ''';
-    database.execute(
-        sqlTextInsertSearches, [model.pk, 'picture', model.basename]);
+    database
+        .execute(sqlTextInsertSearches, [model.pk, 'picture', model.basename]);
 
     return true;
   });
 }
-
 
 Future<void> scanPicturesWorker(FolderModel folderModel) async {
   if (folderModel.path.trim().isEmpty || folderModel.pk.trim().isEmpty) {
@@ -92,7 +91,8 @@ Future<void> scanPicturesWorker(FolderModel folderModel) async {
       if (!isPic) continue;
       filesCount += 1;
       var picPk = generateRandomString(16);
-      var model = PictureModel(picPk, basename(entity.path), dirname(entity.path));
+      var model =
+          PictureModel(picPk, basename(entity.path), dirname(entity.path));
       // 保存到数据库
       insertPictureIfNotExists(model, folderModel.pk);
     }

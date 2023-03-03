@@ -2,11 +2,11 @@ import 'dart:math';
 import 'package:path/path.dart';
 import 'package:venus/services/folder.dart';
 import 'package:venus/services/models/folder.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:venus/utils/logger.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -17,7 +17,7 @@ class HomePage extends StatelessWidget {
       appBar: AppBar(
         title: const Text("选择文件夹"),
       ),
-      body: SafeArea(
+      body: const SafeArea(
         child: HomeBody(),
       ),
     );
@@ -42,8 +42,8 @@ class MobileHomeBody extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
-        Size screenSize = MediaQuery.of(context).size;
-        print("screenSize $screenSize");
+        Size screenSize = MediaQuery.of(context).size; 
+        logger.d("screenSize $screenSize");
 
         return ConstrainedBox(
           constraints:
@@ -68,7 +68,7 @@ class MobileHomeBody extends ConsumerWidget {
                           debugPrint("什么都没有选择");
                         }
                       },
-                      child: Text("点击"),
+                      child: const Text("点击"),
                     ),
                   )
                 ],
@@ -88,7 +88,7 @@ class _MFoldersPartial extends ConsumerWidget {
         future: queryFolders(ref.watch(_directoryProvider)),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (!snapshot.hasData) {
-            return Center(
+            return const Center(
               child: Text("加载Folders出错"),
             );
           }
@@ -105,7 +105,7 @@ class _MFoldersPartial extends ConsumerWidget {
                   return MouseRegion(
                       child: Container(
                     height: 32,
-                    padding: EdgeInsets.only(left: 16, right: 16),
+                    padding: const EdgeInsets.only(left: 16, right: 16),
                     color: Colors.transparent,
                     child: GestureDetector(
                         behavior: HitTestBehavior.translucent,
@@ -119,11 +119,11 @@ class _MFoldersPartial extends ConsumerWidget {
                             Row(
                               children: [
                                 Container(
-                                  padding: EdgeInsets.only(
+                                  padding: const EdgeInsets.only(
                                       left: 0, right: 8, top: 0, bottom: 0),
                                   child: SvgPicture.asset(
                                     "static/images/icons/folder.svg",
-                                    color: Color(0xff444444),
+                                    color: const Color(0xff444444),
                                     height: 16,
                                     width: 16,
                                     //    fit: BoxFit.fitWidth
@@ -131,7 +131,7 @@ class _MFoldersPartial extends ConsumerWidget {
                                 ),
                                 Text(
                                   basename(item.path),
-                                  style: TextStyle(fontSize: 12),
+                                  style: const TextStyle(fontSize: 12),
                                 ),
                               ],
                             ),

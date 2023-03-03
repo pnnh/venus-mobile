@@ -7,13 +7,13 @@ class PageLoadingWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) { 
-    return Container(
+    return const SizedBox(
               height: 24,
               child: LoadingIndicator(
                   indicatorType: Indicator.ballPulse,
 
                   /// Required, The loading type of the widget
-                  colors: const [Colors.white],
+                  colors: [Colors.white],
 
                   /// Optional, The color collections
                   strokeWidth: 2,

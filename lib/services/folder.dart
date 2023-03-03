@@ -1,7 +1,6 @@
-import 'dart:io' show Platform;
 
 import 'package:file_picker/file_picker.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:venus/utils/logger.dart';
 
 import '../utils/utils.dart';
 import 'database.dart';
@@ -13,9 +12,8 @@ class Folders {
     String? selectedDirectory = await FilePicker.platform.getDirectoryPath();
 
     if (selectedDirectory != null) {
-      debugPrint("selectedDirectory: $selectedDirectory");
-
-      String bookmark = "";
+      logger.d("selectedDirectory: $selectedDirectory");
+ 
       var pk = generateRandomString(16);
       var newFolder = FolderModel(pk,
           path: selectedDirectory);
@@ -33,7 +31,7 @@ Future<FolderModel?> getFolder(String pk) async {
 
   var list = await DBHelper().selectAsync(sqlText, [pk]);
 
-  debugPrint("list ${list.length}");
+  logger.d("list ${list.length}");
 
   if (list.isNotEmpty) {
     return FolderModel.fromJson(list[0]);
@@ -67,7 +65,7 @@ Future<List<FolderModel>> queryFolders(String a) async {
 
   var list = await DBHelper().selectAsync(sqlText);
 
-  debugPrint("list ${list.length}");
+  logger.d("list ${list.length}");
 
   var foldersList = List.generate(list.length, (i) {
     return FolderModel.fromJson(list[i]);
