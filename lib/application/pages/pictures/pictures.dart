@@ -10,7 +10,6 @@ import 'package:venus/services/picture.dart';
 final StateProvider<String> _gridProvider = StateProvider((_) => "");
 final StateProvider<String> _searchProvider = StateProvider((_) => "");
 
-
 class PicturesPage extends StatelessWidget {
   final String folderPk;
   const PicturesPage({Key? key, required this.folderPk}) : super(key: key);
@@ -58,15 +57,15 @@ class _MPicturesPageState extends ConsumerState<_PicturesBody> {
                   border: OutlineInputBorder(),
                   hintText: "搜索图片",
                   contentPadding:
-                  EdgeInsets.only(bottom: 4, top: 4, left: 8, right: 8),
+                      EdgeInsets.only(bottom: 4, top: 4, left: 8, right: 8),
                 ),
               ),
             ),
             Expanded(
                 child: _PicturesGrid(
-                  folderPk: widget.folderPk,
-                  searchText: ref.watch(_searchProvider),
-                ))
+              folderPk: widget.folderPk,
+              searchText: ref.watch(_searchProvider),
+            ))
           ],
         ));
   }
