@@ -638,10 +638,9 @@ packages:
   quantum_sqlite:
     dependency: "direct main"
     description:
-      name: quantum_sqlite
-      sha256: "8253d08f4c58e996f2f11480960aa7f995415f2bc94ef02666e24bb644e6ce57"
-      url: "https://pub.dev"
-    source: hosted
+      path: "../../quantum/quantum-flutter-sqlite"
+      relative: true
+    source: path
     version: "0.1.1"
   quiver:
     dependency: transitive

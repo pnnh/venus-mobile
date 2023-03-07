@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:venus/application/pages/folders/folders.dart';
 import 'package:venus/application/pages/tools/tools.dart';
+import 'package:venus/services/picture.dart';
 import 'package:venus/utils/logger.dart';
 
 class HomePage extends StatefulWidget {
@@ -61,8 +62,18 @@ class HomeBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Center(
-      child: Text("Home"),
-    );
+    return FutureBuilder(
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return const Center(
+              child: Text("已获取到权限"),
+            );
+          } else {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+        },
+        future: requestPermission());
   }
 }

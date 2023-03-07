@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:photo_manager/photo_manager.dart';
 import 'package:venus/services/models/folder.dart';
 import 'package:venus/utils/utils.dart';
 
@@ -6,6 +7,7 @@ import 'package:venus/utils/image.dart';
 import 'package:flutter/foundation.dart';
 import 'package:path/path.dart';
 
+import '../utils/logger.dart';
 import 'database.dart';
 import 'folder.dart';
 import 'models/picture.dart';
@@ -98,4 +100,15 @@ Future<void> scanPicturesWorker(FolderModel folderModel) async {
     }
   }
   await updateFilesCount(folderModel.pk, filesCount);
+}
+
+Future<bool> requestPermission() async {
+  final PermissionState ps = await PhotoManager.requestPermissionExtend();
+  if (ps.isAuth) {
+    logger.d("requestPermission: $ps");
+    return true;
+  } else {
+    logger.d("requestPermission2222: $ps");
+    return false;
+  }
 }
